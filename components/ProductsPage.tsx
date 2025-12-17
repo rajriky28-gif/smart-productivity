@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ArrowRight, Check, Zap, Shield, Globe, Cpu, Layers, Lock, Clock, Sparkles, Layout, Smartphone, Cloud, ArrowUpRight, HelpCircle, Users } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Check, Zap, Shield, Globe, Cpu, Layers, Lock, Clock, Sparkles, Layout, Smartphone, Cloud, HelpCircle, Users } from 'lucide-react';
 
 const ProductsPage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { 
   MessageCircle, Bug, Lightbulb, Handshake, LifeBuoy, Hand, 
-  ArrowRight, X, Send, Paperclip, MapPin, Globe, Check, CornerDownLeft 
+  ArrowRight, X, Send, Paperclip, MapPin, Globe, Check 
 } from 'lucide-react';
 
 // --- Types ---

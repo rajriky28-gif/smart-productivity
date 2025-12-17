@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Shield, Diamond, Zap, Eye, Heart, Globe, Clock, Check, Users, Mail, MessageCircle, MapPin, ChevronRight, Star } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Shield, Diamond, Zap, Eye, Heart, Globe, Clock, Check, Users, Mail, MessageCircle, MapPin } from 'lucide-react';
 
 // --- 1. Manifesto Section ---
 const Manifesto = () => {

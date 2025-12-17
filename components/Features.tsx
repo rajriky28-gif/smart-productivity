@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Shield, Users, Globe, Lock, BarChart3, Cloud, Layout, Smartphone, Mail, Calendar, Cpu, Search, Command, RefreshCw } from 'lucide-react';
+import { Zap, Shield, Users, BarChart3, Layout, Smartphone, RefreshCw, Cpu } from 'lucide-react';
 
 const Features: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<number | null>(null);
