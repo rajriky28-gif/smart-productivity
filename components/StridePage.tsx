@@ -150,7 +150,7 @@ const Hero = () => {
       >
          <PhoneFrame className="scale-75 md:scale-100 origin-top shadow-[0_0_100px_rgba(255,165,0,0.15)]">
             <img 
-              src="/homescreen.jpeg" 
+              src="public/homescreen.jpeg" 
               alt="Stride App Home Screen" 
               className="w-full h-full object-cover bg-gray-100"
             />
