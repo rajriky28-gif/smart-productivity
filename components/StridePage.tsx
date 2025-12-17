@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence, useInView, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion';
 import { 
-  Check, Clock, Calendar, MessageSquare, Zap, Moon, Sun, 
-  Smartphone, Shield, Battery, Signal, Wifi, ChevronRight, 
-  Star, Play, Download, Search, Settings, Menu, X, Share2, 
-  Mic, Globe, ArrowRight, Layout, Send, User, Plus
+  Check, Calendar, Zap, Moon, Sun, 
+  Shield, Battery, Signal, Wifi, ChevronRight, 
+  Play, Mic, Layout, Send
 } from 'lucide-react';
 
 // --- UTILS & SHARED COMPONENTS ---
@@ -156,7 +155,8 @@ const Hero = () => {
               className="w-full h-full object-cover bg-gray-100"
               onError={(e) => {
                 // Fallback to a placeholder if the local path is incorrect
-                e.currentTarget.src = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1000&q=80";
+                // Explicitly cast target to HTMLImageElement to satisfy TypeScript
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1000&q=80";
               }}
             />
          </PhoneFrame>
