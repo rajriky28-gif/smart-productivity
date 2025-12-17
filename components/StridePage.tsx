@@ -150,14 +150,9 @@ const Hero = () => {
       >
          <PhoneFrame className="scale-75 md:scale-100 origin-top shadow-[0_0_100px_rgba(255,165,0,0.15)]">
             <img 
-              src="/image/home-sereen.jpg" 
+              src="/homescreen.jpeg" 
               alt="Stride App Home Screen" 
               className="w-full h-full object-cover bg-gray-100"
-              onError={(e) => {
-                // Fallback to a placeholder if the local path is incorrect
-                // Explicitly cast target to HTMLImageElement to satisfy TypeScript
-                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1000&q=80";
-              }}
             />
          </PhoneFrame>
       </motion.div>
