@@ -4,16 +4,31 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Increase the chunk size warning limit to 1600kB to suppress warnings
-    // caused by large dependencies like framer-motion being bundled.
-    chunkSizeWarningLimit: 1600,
+    // Increase chunk size warning limit to 3000kB to suppress warnings for large dependencies
+    chunkSizeWarningLimit: 3000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Split heavy dependencies into separate vendor chunks for better caching
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-ui': ['framer-motion', 'lucide-react'],
-          'vendor-ai': ['@google/genai'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // Split React core
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            // Split Framer Motion (Animation)
+            if (id.includes('framer-motion')) {
+              return 'framer-motion';
+            }
+            // Split Lucide (Icons)
+            if (id.includes('lucide-react')) {
+              return 'lucide-icons';
+            }
+            // Split Google GenAI SDK
+            if (id.includes('@google/genai')) {
+              return 'google-genai';
+            }
+            // Bundle remaining third-party dependencies into a general vendor chunk
+            return 'vendor';
+          }
         }
       }
     }
