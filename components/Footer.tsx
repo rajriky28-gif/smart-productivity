@@ -53,7 +53,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
 
         <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-400 text-sm">© 2024 Smart Productivity Inc. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">© 2025 Smart Productivity. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-gray-400 hover:text-black transition"><Twitter size={20} /></a>
             <a href="#" className="text-gray-400 hover:text-black transition"><Linkedin size={20} /></a>
