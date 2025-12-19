@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { 
-  GitCommit, ArrowRight, Zap, Bug, Sparkles, Box, Smartphone, 
+  GitCommitHorizontal, ArrowRight, Zap, Bug, Sparkles, Box, Smartphone, 
   Battery, Search, Calendar, ChevronDown, ChevronRight, Star, 
-  MessageCircle, Download, Shield, RefreshCw, Layout, Eye,
-  Award, Heart, Coffee, Globe, Check, Users
+  MessageCircle, Download, Shield, RefreshCw, LayoutDashboard, Eye,
+  Award, Heart, Coffee, Globe, Check, Users, ThumbsUp, ChartColumn
 } from 'lucide-react';
 
 // --- SHARED UTILITIES ---
@@ -173,7 +173,7 @@ const LatestRelease = () => {
                         </p>
 
                         <div className="grid gap-4">
-                            <FeatureCard title="New Widgets System" icon={Layout} isNew>
+                            <FeatureCard title="New Widgets System" icon={LayoutDashboard} isNew>
                                 <ul className="space-y-2 mb-4">
                                     <li className="flex items-center gap-2"><Check size={14} className="text-green-500"/> 5 beautiful widget styles</li>
                                     <li className="flex items-center gap-2"><Check size={14} className="text-green-500"/> Interactive checkboxes</li>
@@ -226,7 +226,7 @@ const LatestRelease = () => {
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                                            <Layout size={20} />
+                                            <LayoutDashboard size={20} />
                                         </div>
                                         <div>
                                             <div className="font-bold text-gray-900">New Widgets</div>

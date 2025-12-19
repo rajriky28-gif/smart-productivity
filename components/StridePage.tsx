@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent }
 import { 
   Check, Calendar, Zap, Moon, Sun, 
   Shield, Battery, Signal, Wifi, ChevronRight, 
-  Play, Layout
+  Play, LayoutDashboard
 } from 'lucide-react';
 
 // --- UTILS & SHARED COMPONENTS ---
@@ -319,7 +319,7 @@ const Constellation = () => {
     const features = [
         { label: "Smart Scheduling", x: 50, y: 15, icon: <Calendar size={24} /> },
         { label: "Quick Capture", x: 15, y: 45, icon: <Zap size={24} /> },
-        { label: "Focus Mode", x: 85, y: 45, icon: <Layout size={24} /> },
+        { label: "Focus Mode", x: 85, y: 45, icon: <LayoutDashboard size={24} /> },
         { label: "Offline First", x: 20, y: 80, icon: <Wifi size={24} /> },
         { label: "Privacy", x: 80, y: 80, icon: <Shield size={24} /> },
     ];
