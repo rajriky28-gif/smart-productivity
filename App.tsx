@@ -1,15 +1,16 @@
 import React, { useState, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Stats from './components/Stats';
-import Products from './components/Products';
-import Features from './components/Features';
-import Platforms from './components/Platforms';
-import CallToAction from './components/CallToAction';
 import Footer from './components/Footer';
-import GeminiAssistant from './components/GeminiAssistant';
 
-// Lazy load pages to reduce main bundle size (Fixes 500kB warning)
+// Lazy load heavy components and pages to improve initial load time
+const Products = lazy(() => import('./components/Products'));
+const Features = lazy(() => import('./components/Features'));
+const Stats = lazy(() => import('./components/Stats'));
+const Platforms = lazy(() => import('./components/Platforms'));
+const CallToAction = lazy(() => import('./components/CallToAction'));
+const GeminiAssistant = lazy(() => import('./components/GeminiAssistant'));
+
 const ProductsPage = lazy(() => import('./components/ProductsPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
@@ -79,7 +80,9 @@ function App() {
         </Suspense>
       </main>
       <Footer onNavigate={navigateTo} />
-      <GeminiAssistant />
+      <Suspense fallback={null}>
+        <GeminiAssistant />
+      </Suspense>
     </div>
   );
 }
