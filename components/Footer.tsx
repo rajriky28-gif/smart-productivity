@@ -26,8 +26,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-bold text-gray-900 mb-6">Products</h4>
             <ul className="space-y-4 text-sm text-gray-500">
               <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('stride'); }} className="hover:text-black transition">Stride</a></li>
-              <li><a href="#" className="hover:text-black transition">Roadmap</a></li>
-              <li><a href="#" className="hover:text-black transition">Updates</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('roadmap'); }} className="hover:text-black transition">Roadmap</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('updates'); }} className="hover:text-black transition">Updates</a></li>
             </ul>
           </div>
 
@@ -35,8 +35,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-bold text-gray-900 mb-6">Company</h4>
             <ul className="space-y-4 text-sm text-gray-500">
               <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }} className="hover:text-black transition">About</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('blog'); }} className="hover:text-black transition">Blog</a></li>
               <li><a href="#" className="hover:text-black transition">Careers</a></li>
-              <li><a href="#" className="hover:text-black transition">Blog</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }} className="hover:text-black transition">Contact</a></li>
             </ul>
           </div>
@@ -47,6 +47,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li><a href="#" className="hover:text-black transition">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-black transition">Terms of Service</a></li>
               <li><a href="#" className="hover:text-black transition">Cookie Policy</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }} className="hover:text-black transition">Help & Support</a></li>
             </ul>
           </div>
         </div>

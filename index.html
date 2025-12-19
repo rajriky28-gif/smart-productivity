@@ -4,16 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Productivity</title>
+    <meta name="description" content="Enterprise-grade productivity tools designed for modern teams. Featuring Stride and Gemini-powered assistance." />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
+              serif: ['Merriweather', 'serif'],
             },
             colors: {
               accent: '#0055FF', // Deep Blue
@@ -44,6 +46,57 @@
         background: #555;
       }
     </style>
+    <!-- Structured Data for Search Engines (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Smart Productivity",
+      "url": "https://smart-productivity.com",
+      "description": "Enterprise-grade productivity tools designed for modern teams. Featuring Stride and Gemini-powered assistance.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://smart-productivity.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "SiteNavigationElement",
+          "position": 1,
+          "name": "Stride",
+          "description": "Our flagship intelligent task manager.",
+          "url": "https://smart-productivity.com/#stride"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 2,
+          "name": "Products",
+          "description": "Explore our ecosystem of productivity tools.",
+          "url": "https://smart-productivity.com/#products"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 3,
+          "name": "Contact",
+          "description": "Get in touch with sales or support.",
+          "url": "https://smart-productivity.com/#contact"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": "Help & Support",
+          "description": "Find answers and report issues.",
+          "url": "https://smart-productivity.com/#contact"
+        }
+      ]
+    }
+    </script>
   <script type="importmap">
 {
   "imports": {

@@ -3,41 +3,46 @@ import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent }
 import { 
   Check, Calendar, Zap, Moon, Sun, 
   Shield, Battery, Signal, Wifi, ChevronRight, 
-  Play, Mic, Layout, Send
+  Play, Layout
 } from 'lucide-react';
 
 // --- UTILS & SHARED COMPONENTS ---
 
 const PhoneFrame = ({ children, theme = 'light', className = '' }: { children?: React.ReactNode, theme?: 'light' | 'dark', className?: string }) => (
-  <div className={`relative w-[300px] h-[600px] bg-gray-900 rounded-[3rem] border-[8px] border-gray-800 shadow-2xl overflow-hidden ${className}`}>
-    {/* Dynamic Island / Notch */}
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-20 flex justify-center items-center gap-2">
-        <div className="w-16 h-4 bg-gray-900/50 rounded-full"></div>
-    </div>
-    
-    {/* Screen Content */}
-    <div className={`w-full h-full ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} relative overflow-hidden flex flex-col`}>
-      {/* Status Bar */}
-      <div className="h-10 px-6 flex justify-between items-center text-[10px] font-medium opacity-70 pt-2 z-10">
-        <span>9:41</span>
-        <div className="flex gap-1.5">
-          <Signal size={12} />
-          <Wifi size={12} />
-          <Battery size={12} />
+  <div className={`relative w-[300px] h-[600px] bg-gray-900 rounded-[3rem] border-[8px] border-gray-800 shadow-2xl ${className}`}>
+    {/* Inner Clipping Container - Matches inner border radius (48px - 8px = 40px ~ 2.5rem) */}
+    <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-black isolate">
+        
+        {/* Dynamic Island / Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-20 flex justify-center items-center gap-2 pointer-events-none">
+            <div className="w-16 h-4 bg-gray-900/50 rounded-full"></div>
         </div>
-      </div>
-      
-      {/* Main Content Area */}
-      <div className="flex-1 relative overflow-y-auto no-scrollbar bg-white">
-        {children}
-      </div>
+        
+        {/* Screen Content Wrapper */}
+        <div className={`w-full h-full ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} relative flex flex-col`}>
+          
+          {/* Status Bar */}
+          <div className={`absolute top-0 left-0 right-0 h-10 px-6 flex justify-between items-center text-[10px] font-medium pt-2 z-10 pointer-events-none ${theme === 'dark' ? 'text-white/70' : 'text-gray-900/70'}`}>
+            <span>9:41</span>
+            <div className="flex gap-1.5">
+              <Signal size={12} />
+              <Wifi size={12} />
+              <Battery size={12} />
+            </div>
+          </div>
+          
+          {/* Main Content Area */}
+          <div className="flex-1 w-full h-full relative z-0 pt-10 overflow-hidden">
+            {children}
+          </div>
 
-      {/* Home Indicator */}
-      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-400/50 rounded-full z-20"></div>
+          {/* Home Indicator */}
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-400/50 rounded-full z-20 pointer-events-none"></div>
+        </div>
+
+        {/* Reflection/Glare */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-30"></div>
     </div>
-
-    {/* Reflection/Glare */}
-    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none rounded-[2.5rem] z-30"></div>
   </div>
 );
 
@@ -150,9 +155,9 @@ const Hero = () => {
       >
          <PhoneFrame className="scale-75 md:scale-100 origin-top shadow-[0_0_100px_rgba(255,165,0,0.15)]">
             <img 
-              src="public/homescreen.jpeg" 
-              alt="Stride App Home Screen" 
-              className="w-full h-full object-cover bg-gray-100"
+              src="https://lh3.googleusercontent.com/d/1aLUPzB9JP78KILhi2rV-hUtU4RnmQ1Ad" 
+              alt="Stride App Interface" 
+              className="w-full h-full object-cover object-top"
             />
          </PhoneFrame>
       </motion.div>
@@ -200,101 +205,40 @@ const DayJourney = () => {
     });
 
     const phoneContent = [
-        // 7 AM
-        <div key="morning" className="p-6 h-full flex flex-col">
-            <div className="flex justify-between items-center mb-6">
-                <Sun className="text-orange-500" />
-                <span className="text-xs font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded-full">Morning Ritual</span>
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Start Fresh</h3>
-            <div className="space-y-3">
-                <div className="p-4 bg-white rounded-2xl shadow-sm border border-orange-100 flex gap-3">
-                    <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white"><Check size={14}/></div>
-                    <div className="flex-1"><div className="font-medium line-through text-gray-400">Wake up early</div></div>
-                </div>
-                <div className="p-4 bg-white rounded-2xl shadow-sm border border-gray-100 flex gap-3">
-                    <div className="w-6 h-6 rounded-full border-2 border-gray-200"></div>
-                    <div className="flex-1"><div className="font-medium">Drink water</div></div>
-                </div>
-                <div className="p-4 bg-white rounded-2xl shadow-sm border border-gray-100 flex gap-3">
-                    <div className="w-6 h-6 rounded-full border-2 border-gray-200"></div>
-                    <div className="flex-1"><div className="font-medium">Plan the day</div></div>
-                </div>
-            </div>
+        // 7 AM - Start Fresh
+        <div key="morning" className="w-full h-full">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1vZ8P-7tXwhmjQo51LoEhmoTuzFDpC0Yp" 
+              alt="Start Fresh Interface" 
+              className="w-full h-full object-cover object-top" 
+            />
         </div>,
-        // 9 AM
-        <div key="focus" className="p-6 h-full bg-gray-50 flex flex-col items-center justify-center text-center">
-             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6 relative">
-                 <svg className="absolute inset-0 w-full h-full rotate-[-90deg]">
-                     <circle cx="40" cy="40" r="36" stroke="#e5e7eb" strokeWidth="4" fill="none" />
-                     <circle cx="40" cy="40" r="36" stroke="#3b82f6" strokeWidth="4" fill="none" strokeDasharray="226" strokeDashoffset="40" />
-                 </svg>
-                 <span className="text-xl font-bold font-mono">24:12</span>
-             </div>
-             <h3 className="text-xl font-bold mb-1">Deep Work</h3>
-             <p className="text-gray-500 text-sm mb-8">Blocking distractions...</p>
-             <div className="w-full bg-white p-4 rounded-xl shadow-sm border border-gray-100 opacity-50 blur-[1px]">
-                 <div className="h-2 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
-                 <div className="h-2 bg-gray-100 rounded w-1/2 mx-auto"></div>
-             </div>
+        // 9 AM - Deep Focus
+        <div key="focus" className="w-full h-full">
+             <img 
+              src="https://lh3.googleusercontent.com/d/1u10ehxfBsmo8Sp8VJ8YAIoaLAS8h9Gg1" 
+              alt="Deep Focus Interface" 
+              className="w-full h-full object-cover object-top" 
+            />
         </div>,
-        // 2 PM
-        <div key="collab" className="p-6 h-full flex flex-col">
-            <div className="flex items-center gap-3 mb-6">
-                <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white"></div>
-                    <div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white"></div>
-                    <div className="w-8 h-8 rounded-full bg-purple-500 border-2 border-white"></div>
-                </div>
-                <span className="text-sm font-medium text-gray-500">Team Sync</span>
-            </div>
-            <div className="space-y-4">
-                 <div className="bg-blue-50 p-4 rounded-xl rounded-tl-none border border-blue-100 ml-4">
-                     <p className="text-sm text-blue-900">Just updated the slide deck!</p>
-                     <span className="text-[10px] text-blue-400 mt-1 block">1:58 PM</span>
-                 </div>
-                 <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                     <div className="flex justify-between mb-2">
-                        <span className="font-bold text-sm">Q3 Review</span>
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Active</span>
-                     </div>
-                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                         <div className="h-full bg-green-500 w-3/4"></div>
-                     </div>
-                 </div>
-            </div>
-            <div className="mt-auto bg-gray-100 p-3 rounded-full flex gap-2 text-gray-400">
-                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm"><Mic size={14} /></div>
-                 <div className="flex-1 flex items-center px-2 text-xs">Add a comment...</div>
-                 <div className="w-8 h-8 flex items-center justify-center"><Send size={14} /></div>
-            </div>
+        // 2 PM - Weekly Report
+        <div key="report" className="w-full h-full">
+             <img 
+              src="https://lh3.googleusercontent.com/d/1X9gvpuXUxeOh7jZGwtHf7rXBo491fqAb" 
+              alt="Weekly Report Interface" 
+              className="w-full h-full object-cover object-top" 
+            />
         </div>,
-        // 6 PM
-        <div key="evening" className="p-6 h-full bg-indigo-50 flex flex-col">
-            <h3 className="text-2xl font-bold mb-2 text-indigo-900">Wrap Up</h3>
-            <p className="text-indigo-600/60 mb-8 text-sm">You crushed it today!</p>
-            
-            <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white p-4 rounded-2xl shadow-sm">
-                    <div className="text-3xl font-bold text-indigo-600 mb-1">12</div>
-                    <div className="text-[10px] text-gray-400 uppercase">Tasks Done</div>
-                </div>
-                <div className="bg-white p-4 rounded-2xl shadow-sm">
-                    <div className="text-3xl font-bold text-green-500 mb-1">4h</div>
-                    <div className="text-[10px] text-gray-400 uppercase">Focus Time</div>
-                </div>
-            </div>
-            
-            <div className="bg-white p-4 rounded-2xl shadow-sm flex items-center gap-4">
-                 <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-2xl">🎉</div>
-                 <div>
-                     <div className="font-bold text-sm">Daily Goal Met</div>
-                     <div className="text-xs text-gray-500">Streak: 14 days</div>
-                 </div>
-            </div>
+        // 6 PM - Smart Search
+        <div key="search" className="w-full h-full">
+             <img 
+              src="https://lh3.googleusercontent.com/d/1MZriU2DhuPqK8WoCUwCjq18kdaWOaqfw" 
+              alt="Smart Search Interface" 
+              className="w-full h-full object-cover object-top" 
+            />
         </div>,
-        // 11 PM
-        <div key="night" className="p-6 h-full flex flex-col justify-center items-center text-center bg-gray-900 text-white">
+        // 11 PM - Sleep Well
+        <div key="night" className="pt-4 px-6 pb-6 h-full flex flex-col justify-center items-center text-center bg-gray-900 text-white">
              <Moon className="text-purple-400 mb-6 w-16 h-16" />
              <h3 className="text-2xl font-bold mb-2">Sleep Well</h3>
              <p className="text-gray-400 text-sm max-w-[200px]">Your tasks are safe. Tomorrow is a new start.</p>
@@ -308,29 +252,11 @@ const DayJourney = () => {
 
     return (
         <motion.section style={{ backgroundColor }} ref={containerRef} className="relative h-[500vh]">
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-6xl px-6 items-center">
+            <div className="sticky top-0 h-[100dvh] flex flex-col overflow-hidden">
+                <div className="w-full h-full max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
                     
-                    {/* Left: Phone Display */}
-                    <div className="flex justify-center md:justify-end md:pr-12 order-2 md:order-1">
-                        <PhoneFrame theme={screenStep === 4 ? 'dark' : 'light'} className="shadow-2xl transition-all duration-500">
-                             <AnimatePresence mode="wait">
-                                 <motion.div
-                                     key={screenStep}
-                                     initial={{ opacity: 0, y: 20 }}
-                                     animate={{ opacity: 1, y: 0 }}
-                                     exit={{ opacity: 0, y: -20 }}
-                                     transition={{ duration: 0.4 }}
-                                     className="h-full"
-                                 >
-                                     {phoneContent[screenStep]}
-                                 </motion.div>
-                             </AnimatePresence>
-                        </PhoneFrame>
-                    </div>
-
-                    {/* Right: Text Narrative (Moves as we scroll, implemented via absolute positioning in the parent relative container usually, but here we can just update text based on step) */}
-                    <div className="order-1 md:order-2 mb-10 md:mb-0 md:pl-12">
+                    {/* Right: Text Narrative (Shown first on mobile) */}
+                    <div className="w-full md:w-1/2 order-1 md:order-2 z-20 pt-24 md:pt-0 pb-6 md:pb-0 md:pl-12 text-center md:text-left h-auto flex flex-col justify-end md:justify-center">
                          <AnimatePresence mode="wait">
                              <motion.div
                                 key={screenStep}
@@ -338,25 +264,46 @@ const DayJourney = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.5 }}
-                                className="space-y-6"
+                                className="space-y-3 md:space-y-6"
                              >
                                 <span className={`text-sm font-bold uppercase tracking-widest ${screenStep === 4 ? 'text-purple-400' : 'text-blue-600'}`}>
                                     {['7:00 AM', '9:00 AM', '2:00 PM', '6:00 PM', '11:00 PM'][screenStep]}
                                 </span>
                                 <h2 className={`text-4xl md:text-6xl font-bold ${screenStep === 4 ? 'text-white' : 'text-gray-900'}`}>
-                                    {['Start Fresh', 'Deep Focus', 'Team Sync', 'Reflect', 'Rest Easy'][screenStep]}
+                                    {['Start Fresh', 'Deep Focus', 'Weekly Report', 'Smart Search', 'Rest Easy'][screenStep]}
                                 </h2>
-                                <p className={`text-xl ${screenStep === 4 ? 'text-gray-400' : 'text-gray-600'} max-w-md`}>
+                                <p className={`text-base md:text-xl ${screenStep === 4 ? 'text-gray-400' : 'text-gray-600'} max-w-md mx-auto md:mx-0 leading-relaxed`}>
                                     {[
                                         "Begin your day with clarity. See everything that matters, nothing that doesn't.",
                                         "Tap any task to enter Focus Mode. The world fades. Only your work remains.",
-                                        "Share lists. Assign tasks. Stay synchronized. Collaboration happens in real-time.",
-                                        "Watch your completed tasks. Feel the satisfaction of a day well spent.",
+                                        "Track your momentum. Visualize your accomplishments and productivity trends over the week.",
+                                        "Instantly find any task, note, or event. Your entire productivity history, accessible in milliseconds.",
                                         "Your tasks are safe. Your mind is clear. Sleep well."
                                     ][screenStep]}
                                 </p>
                              </motion.div>
                          </AnimatePresence>
+                    </div>
+
+                    {/* Left: Phone Display (Shown second on mobile) */}
+                    <div className="w-full md:w-1/2 order-2 md:order-1 flex items-start md:items-center justify-center relative flex-1 min-h-0">
+                        {/* Scale wrapper for mobile. Reduced scale to 0.60 to fit comfortably */}
+                        <div className="transform scale-[0.60] sm:scale-75 md:scale-100 origin-top md:origin-center transition-transform duration-300">
+                            <PhoneFrame theme={screenStep === 4 ? 'dark' : 'light'} className="shadow-2xl transition-all duration-500">
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={screenStep}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.4 }}
+                                        className="h-full w-full"
+                                    >
+                                        {phoneContent[screenStep]}
+                                    </motion.div>
+                                </AnimatePresence>
+                            </PhoneFrame>
+                        </div>
                     </div>
 
                 </div>

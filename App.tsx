@@ -12,6 +12,9 @@ import ProductsPage from './components/ProductsPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import StridePage from './components/StridePage';
+import RoadmapPage from './components/RoadmapPage';
+import UpdatesPage from './components/UpdatesPage';
+import BlogPage from './components/BlogPage';
 
 function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -46,6 +49,12 @@ function App() {
             <ContactPage />
         ) : currentView === 'stride' ? (
             <StridePage />
+        ) : currentView === 'roadmap' ? (
+            <RoadmapPage />
+        ) : currentView === 'updates' ? (
+            <UpdatesPage />
+        ) : currentView === 'blog' ? (
+            <BlogPage />
         ) : (
             <Hero onNavigate={navigateTo} />
         )}

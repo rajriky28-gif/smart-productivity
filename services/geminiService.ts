@@ -1,15 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateProductivityTip = async (context?: string): Promise<string> => {
-  if (!apiKey) {
+  if (!process.env.API_KEY) {
     return "API Key is missing. Please configure your environment variables.";
   }
 
   try {
-    const model = 'gemini-2.5-flash';
+    const model = 'gemini-3-flash-preview';
     const prompt = context 
       ? `Based on this context: "${context}", give me a short, actionable productivity tip.`
       : "Give me a single, short, high-impact productivity tip for a software engineering team manager. Keep it under 2 sentences.";
@@ -27,11 +26,11 @@ export const generateProductivityTip = async (context?: string): Promise<string>
 };
 
 export const chatWithAssistant = async (history: {role: 'user' | 'model', text: string}[], newMessage: string) => {
-    if (!apiKey) return "Please provide an API Key.";
+    if (!process.env.API_KEY) return "Please provide an API Key.";
     
     try {
         const chat = ai.chats.create({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-3-flash-preview',
             history: history.map(h => ({
                 role: h.role,
                 parts: [{ text: h.text }]
@@ -42,7 +41,7 @@ export const chatWithAssistant = async (history: {role: 'user' | 'model', text: 
         });
 
         const result = await chat.sendMessage({ message: newMessage });
-        return result.text;
+        return result.text || "";
     } catch (error) {
         console.error("Chat error", error);
         return "I'm having trouble connecting right now. Please try again later.";

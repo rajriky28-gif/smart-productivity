@@ -124,17 +124,21 @@ const OriginStory = () => {
 
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-[#fdfbf7]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      <div className="sticky top-0 flex h-[100dvh] items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           {pages.map((page, i) => (
-            <div key={i} className={`h-screen w-screen flex-shrink-0 flex items-center justify-center p-8 ${page.visual} border-r border-gray-100`}>
-              <div className="max-w-2xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                   <span className="text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-200 pb-2 inline-block">{page.year}</span>
-                   <h2 className="text-6xl md:text-8xl font-black text-gray-900 mb-4">{page.title}</h2>
-                   <p className="text-xl md:text-2xl text-gray-600 font-serif italic">{page.text}</p>
+            <div key={i} className={`h-[100dvh] w-screen flex-shrink-0 flex items-center justify-center p-6 md:p-8 ${page.visual} border-r border-gray-100`}>
+              <div className="max-w-2xl w-full flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center justify-center h-full pt-16 md:pt-0">
+                
+                {/* Text Content */}
+                <div className="space-y-4 md:space-y-6 text-center md:text-left flex-shrink-0">
+                   <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-200 pb-2 inline-block">{page.year}</span>
+                   <h2 className="text-4xl md:text-8xl font-black text-gray-900 mb-2 md:mb-4 leading-tight">{page.title}</h2>
+                   <p className="text-lg md:text-2xl text-gray-600 font-serif italic max-w-md mx-auto md:mx-0">{page.text}</p>
                 </div>
-                <div className="aspect-square bg-white rounded-2xl shadow-xl p-8 transform rotate-3 flex items-center justify-center border border-gray-100/50">
+
+                {/* Visual Content - Scaled down for mobile */}
+                <div className="relative w-full max-w-[260px] md:max-w-none aspect-square bg-white rounded-2xl shadow-xl p-6 md:p-8 transform rotate-3 flex items-center justify-center border border-gray-100/50 flex-shrink min-h-0 mx-auto md:mx-0">
                     <div className="w-full h-full bg-gray-100 rounded-lg animate-pulse"></div>
                 </div>
               </div>
@@ -203,15 +207,31 @@ const Values = () => {
 
 // --- 5. Team (Chaos Layout) ---
 const TeamMember = ({ name, role, fact, rotation, offset }: { name: string, role: string, fact: string, rotation: number, offset: string }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <motion.div 
       drag
       dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
       whileHover={{ scale: 1.1, rotate: 0, zIndex: 10 }}
-      style={{ rotate: rotation }}
-      className={`absolute ${offset} bg-white p-3 pb-8 shadow-xl w-64 transform transition-all cursor-grab active:cursor-grabbing`}
+      animate={{ rotate: isMobile ? 0 : rotation }}
+      className={`
+        relative md:absolute ${offset} 
+        bg-white p-6 md:p-3 md:pb-8 shadow-xl 
+        w-full max-w-[280px] md:w-64 
+        transform transition-all cursor-grab active:cursor-grabbing 
+        rounded-xl md:rounded-none
+        mx-auto md:mx-0 mb-6 md:mb-0
+      `}
     >
-      <div className="w-full aspect-square bg-gray-200 mb-4 grayscale hover:grayscale-0 transition-all duration-300">
+      <div className="w-full aspect-square bg-gray-200 mb-4 grayscale hover:grayscale-0 transition-all duration-300 rounded-lg md:rounded-none overflow-hidden">
          {/* Placeholder for team photo */}
          <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100">
             <Users size={48} />
@@ -226,20 +246,19 @@ const TeamMember = ({ name, role, fact, rotation, offset }: { name: string, role
 
 const Team = () => {
   return (
-    <section className="py-32 bg-[#e5e5e5] overflow-hidden relative min-h-[900px] flex flex-col items-center">
+    <section className="py-20 md:py-32 bg-[#e5e5e5] overflow-hidden relative min-h-0 md:min-h-[900px] flex flex-col items-center h-auto">
        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
        
-       <div className="text-center relative z-0 mt-20 pointer-events-none">
-          <h2 className="text-5xl font-black text-gray-900 bg-white/50 backdrop-blur px-8 py-4 inline-block rounded-full">The Humans</h2>
+       <div className="text-center relative z-0 mt-10 md:mt-20 pointer-events-none mb-12 md:mb-0">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 bg-white/50 backdrop-blur px-8 py-4 inline-block rounded-full">The Humans</h2>
        </div>
 
-       <div className="absolute inset-0 max-w-7xl mx-auto top-64">
-          {/* Simulated randomized layout - Pushed down to avoid title overlap */}
-          <TeamMember name="Sarah J." role="Founder & CEO" fact="Drinks 8 espressos a day" rotation={-5} offset="top-0 left-[10%]" />
-          <TeamMember name="David K." role="CTO" fact="Dreams in TypeScript" rotation={3} offset="top-20 right-[15%]" />
-          <TeamMember name="Elena R." role="Head of Design" fact="Hates sharp corners" rotation={-8} offset="bottom-64 left-[20%]" />
-          <TeamMember name="Michael T." role="Lead Engineer" fact="Still uses Vim" rotation={6} offset="bottom-40 right-[25%]" />
-          <TeamMember name="You?" role="Future Teammate" fact="We're hiring!" rotation={2} offset="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+       <div className="relative md:absolute inset-0 max-w-7xl mx-auto md:top-64 flex flex-col md:block items-center pb-20 md:pb-0 z-10 w-full px-6 md:px-0">
+          <TeamMember name="Sarah J." role="Founder & CEO" fact="Drinks 8 espressos a day" rotation={-5} offset="md:top-0 md:left-[10%]" />
+          <TeamMember name="David K." role="CTO" fact="Dreams in TypeScript" rotation={3} offset="md:top-20 md:right-[15%]" />
+          <TeamMember name="Elena R." role="Head of Design" fact="Hates sharp corners" rotation={-8} offset="md:bottom-64 md:left-[20%]" />
+          <TeamMember name="Michael T." role="Lead Engineer" fact="Still uses Vim" rotation={6} offset="md:bottom-40 md:right-[25%]" />
+          <TeamMember name="You?" role="Future Teammate" fact="We're hiring!" rotation={2} offset="md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2" />
        </div>
     </section>
   );

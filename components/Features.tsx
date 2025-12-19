@@ -55,12 +55,12 @@ const Features: React.FC = () => {
       </section>
 
       {/* 2. THE COMPARISON DESTROYER */}
-      <section className="relative h-[80vh] overflow-hidden">
-        <div className="absolute inset-0 grid grid-cols-2">
+      <section className="relative min-h-[120vh] md:min-h-0 md:h-[80vh] overflow-hidden flex flex-col md:block">
+        <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 h-full">
           {/* Left: The Old Way */}
-          <div className="bg-gray-900 flex items-center justify-center relative overflow-hidden p-8 border-r border-gray-800">
+          <div className="bg-gray-900 flex items-center justify-center relative overflow-hidden p-8 border-b md:border-b-0 md:border-r border-gray-800">
              <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-             <div className="text-center opacity-50 blur-[1px] grayscale">
+             <div className="text-center opacity-50 blur-[1px] grayscale transform scale-75 md:scale-100 origin-center transition-transform">
                 <h3 className="text-4xl font-bold text-gray-500 mb-8">The Old Way</h3>
                 
                 {/* Chaotic UI Elements */}
@@ -86,7 +86,7 @@ const Features: React.FC = () => {
           {/* Right: The Smart Way */}
           <div className="bg-black flex items-center justify-center relative overflow-hidden p-8">
              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
-             <div className="text-center z-10">
+             <div className="text-center z-10 transform scale-75 md:scale-100 origin-center transition-transform">
                 <h3 className="text-4xl font-bold text-white mb-8">The Smart Way</h3>
                 
                 {/* Clean UI Elements */}
@@ -124,8 +124,8 @@ const Features: React.FC = () => {
           </div>
         </div>
         
-        {/* Divider */}
-        <div className="absolute inset-y-0 left-1/2 w-px bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+        {/* Divider - Horizontal on mobile, Vertical on desktop */}
+        <div className="absolute top-1/2 left-0 w-full h-px md:top-0 md:left-1/2 md:w-px md:h-full bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.5)] z-20 pointer-events-none">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg text-black font-bold">VS</div>
         </div>
       </section>
