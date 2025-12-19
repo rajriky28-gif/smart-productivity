@@ -1,9 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize lazily to prevent runtime errors if process.env is not fully ready at module load time
+const getAiClient = () => {
+    // Ensure process.env.API_KEY exists before initializing to prevent crashes
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+        console.warn("API_KEY is missing in process.env");
+        return null;
+    }
+    return new GoogleGenAI({ apiKey });
+};
 
 export const generateProductivityTip = async (context?: string): Promise<string> => {
-  if (!process.env.API_KEY) {
+  const ai = getAiClient();
+  if (!ai) {
     return "API Key is missing. Please configure your environment variables.";
   }
 
@@ -26,7 +36,8 @@ export const generateProductivityTip = async (context?: string): Promise<string>
 };
 
 export const chatWithAssistant = async (history: {role: 'user' | 'model', text: string}[], newMessage: string) => {
-    if (!process.env.API_KEY) return "Please provide an API Key.";
+    const ai = getAiClient();
+    if (!ai) return "Please provide an API Key.";
     
     try {
         const chat = ai.chats.create({

@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    // Polyfill process.env for browser compatibility and inject API_KEY
+    'process.env': {
+      API_KEY: process.env.API_KEY || ''
+    }
+  },
   build: {
     // Increase chunk size warning limit to 3000kB to suppress warnings for large dependencies
     chunkSizeWarningLimit: 3000,
