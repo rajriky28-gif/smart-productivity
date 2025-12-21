@@ -18,13 +18,14 @@ let googleProvider;
 let analytics;
 
 try {
-  // Safe initialization: Check if app exists before creating
+  // Safe initialization: Check if app exists before creating to prevent duplicate initialization errors
   if (getApps().length === 0) {
     app = initializeApp(firebaseConfig);
   } else {
     app = getApp();
   }
 
+  // Initialize services
   auth = getAuth(app);
   googleProvider = new GoogleAuthProvider();
   
@@ -37,6 +38,7 @@ try {
     console.warn("Firebase Analytics failed to initialize:", err);
   }
 } catch (error) {
+  // Catching errors to prevent full app crash, allowing error boundary to show
   console.error("Firebase initialization failed:", error);
 }
 

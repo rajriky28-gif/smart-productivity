@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, Check, X, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Check, X, ArrowRight, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import StrideBear, { BearState } from './StrideBear';
 import { auth, googleProvider } from '../services/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, updateProfile, onAuthStateChanged } from 'firebase/auth';
 
 interface AuthPageProps {
     onNavigate: (view: string) => void;
@@ -21,6 +21,18 @@ const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
     const [bearState, setBearState] = useState<BearState>('idle');
     const [lookPercent, setLookPercent] = useState(50);
     const [speechText, setSpeechText] = useState("Hey there! Ready to get productive? 👋");
+
+    // Check if user is already logged in
+    useEffect(() => {
+        if (auth) {
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    onNavigate('home');
+                }
+            });
+            return () => unsubscribe();
+        }
+    }, [onNavigate]);
 
     // --- BEAR LOGIC ---
 
@@ -187,15 +199,25 @@ const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
     if (!auth) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-white text-center">
-                <AlertCircle size={48} className="text-red-500 mb-4" />
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                    <AlertCircle size={32} className="text-red-500" />
+                </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Service Unavailable</h1>
-                <p className="text-gray-500 mb-6">We couldn't connect to the authentication service. This might be due to a network issue or configuration error.</p>
-                <button 
-                    onClick={() => onNavigate('home')}
-                    className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-gray-800 transition-colors"
-                >
-                    Back to Home
-                </button>
+                <p className="text-gray-500 mb-8 max-w-sm">We couldn't connect to the authentication service. This is likely a temporary connection issue.</p>
+                <div className="flex gap-4">
+                    <button 
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-3 bg-black text-white hover:bg-gray-800 rounded-xl font-bold transition-all shadow-lg flex items-center gap-2"
+                    >
+                        <RefreshCw size={18} /> Retry Connection
+                    </button>
+                    <button 
+                        onClick={() => onNavigate('home')}
+                        className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl font-bold text-gray-800 transition-colors"
+                    >
+                        Back to Home
+                    </button>
+                </div>
             </div>
         );
     }
