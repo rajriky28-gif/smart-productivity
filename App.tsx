@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
@@ -29,11 +29,45 @@ const PageLoader = () => (
 );
 
 function App() {
-  const [currentView, setCurrentView] = useState('home');
+  // Helper to determine view from URL hash
+  const getInitialView = () => {
+    if (typeof window === 'undefined') return 'home';
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return 'home';
+    
+    const validViews = [
+        'auth', 'products', 'about', 'contact', 'support', 
+        'stride', 'roadmap', 'updates', 'blog', 'home'
+    ];
+    return validViews.includes(hash) ? hash : 'home';
+  };
+
+  const [currentView, setCurrentView] = useState(getInitialView);
+
+  // Sync state with browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentView(getInitialView());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const navigateTo = (view: string) => {
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Update Browser URL without reload
+    const newHash = view === 'home' ? '' : `#${view}`;
+    // Only push if different to avoid duplicate history entries if clicked multiple times
+    if (window.location.hash.replace('#', '') !== (view === 'home' ? '' : view)) {
+        if (view === 'home') {
+             // Clean URL for home
+             window.history.pushState(null, '', window.location.pathname + window.location.search);
+        } else {
+             window.history.pushState(null, '', newHash);
+        }
+    }
   };
 
   // The Home page is now a dark, immersive experience. 
