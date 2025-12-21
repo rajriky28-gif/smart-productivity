@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User, LogOut, Settings, HelpCircle } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import { auth } from '../services/firebase';
+import { signOut } from 'firebase/auth';
 
 const MotionNav = motion.nav as any;
 const MotionDiv = motion.div as any;
@@ -9,11 +11,13 @@ const MotionSpan = motion.span as any;
 interface NavbarProps {
   currentView?: string;
   onNavigate?: (view: string) => void;
+  user?: any;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, user }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -47,6 +51,19 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+        if (auth) {
+            await signOut(auth);
+            setIsProfileMenuOpen(false);
+            setIsMobileMenuOpen(false);
+            if (onNavigate) onNavigate('home');
+        }
+    } catch (error) {
+        console.error("Error signing out", error);
+    }
+  };
+
   // Determine dark background context for initial state
   const isDarkBg = ((currentView === 'about' || currentView === 'stride' || currentView === 'home'));
   
@@ -61,6 +78,18 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
     stiffness: 150, 
     damping: 22, 
     mass: 0.8 
+  };
+
+  // User avatar helper
+  const UserAvatar = () => {
+      if (user?.photoURL) {
+          return <img src={user.photoURL} alt="Profile" className="w-9 h-9 rounded-full border border-gray-200 object-cover" />;
+      }
+      return (
+          <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 border ${isScrolled ? 'bg-gray-100 border-gray-200 text-gray-700' : (isDarkBg ? 'bg-white/10 border-white/20 text-white hover:bg-white/20' : 'bg-gray-100 border-gray-200 text-gray-900')}`}>
+              <User size={18} />
+          </div>
+      );
   };
 
   return (
@@ -169,14 +198,70 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
              </a>
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:block pl-2 shrink-0">
-            <button 
-                onClick={() => onNavigate?.('auth')}
-                className={`${buttonBg} px-4 py-1.5 rounded-full text-sm font-bold transition hover:scale-105 active:scale-95 duration-200 shadow-sm`}
-            >
-                Get Started
-            </button>
+        {/* Desktop CTA / User Profile */}
+        <div className="hidden md:block pl-2 shrink-0 relative">
+            {user ? (
+                <div className="relative">
+                    <button 
+                        onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                        className="flex items-center gap-2 focus:outline-none"
+                    >
+                        <UserAvatar />
+                    </button>
+                    
+                    {/* Desktop Profile Dropdown */}
+                    <AnimatePresence>
+                        {isProfileMenuOpen && (
+                            <MotionDiv
+                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden py-2 z-50 origin-top-right"
+                            >
+                                <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
+                                    <p className="text-sm font-bold text-gray-900 truncate">{user.displayName || 'User'}</p>
+                                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                </div>
+                                <div className="py-1">
+                                    <button 
+                                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                                        onClick={() => {
+                                            setIsProfileMenuOpen(false);
+                                            // onNavigate('settings'); 
+                                        }}
+                                    >
+                                        <Settings size={16} /> Account Settings
+                                    </button>
+                                    <button 
+                                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                                        onClick={() => {
+                                            setIsProfileMenuOpen(false);
+                                            onNavigate?.('support');
+                                        }}
+                                    >
+                                        <HelpCircle size={16} /> Help & Support
+                                    </button>
+                                </div>
+                                <div className="border-t border-gray-100 py-1">
+                                    <button 
+                                        onClick={handleSignOut}
+                                        className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                                    >
+                                        <LogOut size={16} /> Sign Out
+                                    </button>
+                                </div>
+                            </MotionDiv>
+                        )}
+                    </AnimatePresence>
+                </div>
+            ) : (
+                <button 
+                    onClick={() => onNavigate?.('auth')}
+                    className={`${buttonBg} px-4 py-1.5 rounded-full text-sm font-bold transition hover:scale-105 active:scale-95 duration-200 shadow-sm`}
+                >
+                    Get Started
+                </button>
+            )}
         </div>
 
         {/* Mobile Toggle */}
@@ -197,6 +282,17 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               className="absolute top-full left-0 right-0 mt-2 bg-white rounded-3xl border border-gray-100 shadow-2xl md:hidden overflow-hidden p-2 mx-4"
             >
               <div className="flex flex-col">
+                {/* Mobile User Header */}
+                {user && (
+                    <div className="p-4 border-b border-gray-100 mb-2 flex items-center gap-3">
+                        <UserAvatar />
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-bold text-gray-900 truncate">{user.displayName || 'User'}</p>
+                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                        </div>
+                    </div>
+                )}
+
                 {['Home', 'Products', 'About'].map((item) => (
                   <a 
                     key={item}
@@ -214,16 +310,31 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 >
                     Contact
                 </a>
+                
                 <div className="p-2 pt-4">
-                    <button 
-                        onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            onNavigate?.('auth');
-                        }}
-                        className="bg-black text-white w-full py-3 rounded-xl font-medium shadow-lg active:scale-95 transition-transform text-sm"
-                    >
-                        Get Started
-                    </button>
+                    {user ? (
+                        <>
+                            <button className="text-gray-700 w-full py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors text-sm flex items-center gap-3 px-2">
+                                <Settings size={16} /> Settings
+                            </button>
+                            <button 
+                                onClick={handleSignOut}
+                                className="bg-gray-100 text-red-600 w-full py-3 rounded-xl font-medium shadow-sm active:scale-95 transition-transform text-sm flex items-center justify-center gap-2 mt-2"
+                            >
+                                <LogOut size={16} /> Sign Out
+                            </button>
+                        </>
+                    ) : (
+                        <button 
+                            onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                onNavigate?.('auth');
+                            }}
+                            className="bg-black text-white w-full py-3 rounded-xl font-medium shadow-lg active:scale-95 transition-transform text-sm"
+                        >
+                            Get Started
+                        </button>
+                    )}
                 </div>
               </div>
             </MotionDiv>

@@ -2,6 +2,8 @@ import React, { useState, Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
+import { auth } from './services/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 // Lazy load heavy components and pages to improve initial load time
 const Products = lazy(() => import('./components/Products'));
@@ -43,6 +45,7 @@ function App() {
   };
 
   const [currentView, setCurrentView] = useState(getInitialView);
+  const [user, setUser] = useState<User | null>(null);
 
   // Sync state with browser back/forward buttons
   useEffect(() => {
@@ -51,6 +54,16 @@ function App() {
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Listen for auth changes
+  useEffect(() => {
+    if (auth) {
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+      });
+      return () => unsubscribe();
+    }
   }, []);
 
   const navigateTo = (view: string) => {
@@ -86,7 +99,7 @@ function App() {
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${isHome ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      <Navbar currentView={currentView} onNavigate={navigateTo} />
+      <Navbar currentView={currentView} onNavigate={navigateTo} user={user} />
       <main>
         <Suspense fallback={<PageLoader />}>
           {currentView === 'home' ? (

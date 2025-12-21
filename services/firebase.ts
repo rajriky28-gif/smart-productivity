@@ -16,6 +16,7 @@ let app;
 let auth;
 let googleProvider;
 let analytics;
+let initError;
 
 try {
   // Safe initialization: Check if app exists before creating to prevent duplicate initialization errors
@@ -38,6 +39,7 @@ try {
     }
   }
 } catch (error: any) {
+  initError = error;
   // Catching specific "auth not registered" errors to prevent full app crash
   console.error("Critical Firebase Initialization Error:", error);
   if (error.message && error.message.includes("auth has not been registered")) {
@@ -45,4 +47,4 @@ try {
   }
 }
 
-export { auth, googleProvider, analytics };
+export { auth, googleProvider, analytics, initError };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Check, X, ArrowRight, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import StrideBear, { BearState } from './StrideBear';
-import { auth, googleProvider } from '../services/firebase';
+import { auth, googleProvider, initError } from '../services/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, updateProfile, onAuthStateChanged } from 'firebase/auth';
 
 interface AuthPageProps {
@@ -138,6 +138,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 if (name) {
                     await updateProfile(userCredential.user, { displayName: name });
+                    // Force refresh of the user object to ensure displayName is propagated locally
+                    await userCredential.user.reload();
                 }
             }
 
@@ -203,7 +205,12 @@ const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                     <AlertCircle size={32} className="text-red-500" />
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Service Unavailable</h1>
-                <p className="text-gray-500 mb-8 max-w-sm">We couldn't connect to the authentication service. This is likely a temporary connection issue.</p>
+                <p className="text-gray-500 mb-4 max-w-sm">We couldn't connect to the authentication service.</p>
+                {initError && (
+                    <div className="bg-gray-100 p-4 rounded-lg text-left text-xs font-mono text-red-600 mb-6 max-w-lg overflow-auto">
+                        <strong>Error:</strong> {initError.message || JSON.stringify(initError)}
+                    </div>
+                )}
                 <div className="flex gap-4">
                     <button 
                         onClick={() => window.location.reload()}
@@ -231,7 +238,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 className="w-full md:w-1/2 bg-gray-50 flex flex-col items-center justify-center p-8 relative overflow-hidden min-h-[300px] md:min-h-screen"
             >
                 {/* Background Decor */}
-                <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
                 
                 {/* Speech Bubble */}
                 <AnimatePresence mode="wait">
