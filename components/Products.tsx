@@ -6,6 +6,9 @@ import {
   Cloud, Shield
 } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+const MotionP = motion.p as any;
+
 const Products: React.FC = () => {
   // State for testimonials
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -54,7 +57,7 @@ const Products: React.FC = () => {
             
             {/* 1. Headline - 3D Typography */}
             <div className="text-center mb-16 relative z-20">
-                <motion.div
+                <MotionDiv
                     initial={{ opacity: 0, y: 50, rotateX: 20 }}
                     whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
@@ -63,23 +66,23 @@ const Products: React.FC = () => {
                     <h2 className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600 drop-shadow-[0_10px_20px_rgba(255,255,255,0.1)]">
                         STRIDE
                     </h2>
-                </motion.div>
-                <motion.p 
+                </MotionDiv>
+                <MotionP 
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
                     className="text-2xl md:text-3xl font-light text-gray-400 font-serif italic"
                 >
                     Your tasks, perfectly orchestrated.
-                </motion.p>
-                <motion.div 
+                </MotionP>
+                <MotionDiv 
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.8 }}
                     className="inline-block mt-6 px-4 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur text-xs font-bold uppercase tracking-widest text-blue-400"
                 >
                     Task Management Reimagined
-                </motion.div>
+                </MotionDiv>
             </div>
 
             {/* 2. The Hero Moment - Living Devices & Orbs */}
@@ -92,14 +95,14 @@ const Products: React.FC = () => {
                 </div>
 
                 {/* Central Devices Cluster */}
-                <motion.div 
+                <MotionDiv 
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.5 }}
                     className="relative z-10 w-full h-full flex items-center justify-center transform-style-3d group"
                 >
                     {/* Laptop */}
-                    <motion.div 
+                    <MotionDiv 
                         className="relative w-[300px] md:w-[600px] h-[180px] md:h-[350px] bg-gray-900 rounded-xl border border-gray-700 shadow-2xl flex flex-col overflow-hidden"
                         animate={{ y: [0, -10, 0] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -125,10 +128,10 @@ const Products: React.FC = () => {
                                  </div>
                              </div>
                          </div>
-                    </motion.div>
+                    </MotionDiv>
 
                     {/* Tablet */}
-                    <motion.div 
+                    <MotionDiv 
                         className="absolute bottom-[-20px] left-0 md:left-[-50px] w-[120px] md:w-[200px] h-[160px] md:h-[280px] bg-gray-800 rounded-xl border border-gray-600 shadow-xl overflow-hidden hidden sm:block"
                         animate={{ y: [0, -15, 0] }}
                         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
@@ -140,10 +143,10 @@ const Products: React.FC = () => {
                                 {[1,2,3,4].map(i => <div key={i} className="h-12 md:h-20 bg-gray-700/50 rounded-lg"></div>)}
                             </div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
 
                     {/* Phone */}
-                    <motion.div 
+                    <MotionDiv 
                         className="absolute bottom-[-10px] right-0 md:right-[-30px] w-[70px] md:w-[100px] h-[140px] md:h-[200px] bg-black rounded-[15px] border-2 md:border-4 border-gray-800 shadow-xl overflow-hidden"
                         animate={{ y: [0, -8, 0] }}
                         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -153,13 +156,13 @@ const Products: React.FC = () => {
                              <div className="h-1 md:h-2 w-3/4 bg-gray-700 rounded mx-auto mt-2"></div>
                              {[1,2,3,4,5].map(i => <div key={i} className="h-6 md:h-8 bg-gray-800 rounded border border-gray-700"></div>)}
                          </div>
-                    </motion.div>
-                </motion.div>
+                    </MotionDiv>
+                </MotionDiv>
 
                 {/* Orbs - The Feature Constellation */}
                 <div className="absolute inset-0 pointer-events-none">
                 {orbs.map((orb, i) => (
-                    <motion.div
+                    <MotionDiv
                         key={i}
                         className="absolute w-12 h-12 md:w-16 md:h-16 rounded-full bg-gray-900/90 backdrop-blur-md border border-white/20 flex items-center justify-center cursor-pointer pointer-events-auto group hover:scale-110 transition-all duration-300 z-20 shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:border-blue-400/50"
                         style={{
@@ -178,12 +181,12 @@ const Products: React.FC = () => {
                             <h4 className="text-white font-bold text-sm mb-1">{orb.label}</h4>
                             <div className="w-2 h-2 bg-blue-500 rounded-full mx-auto animate-pulse"></div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 ))}
                 </div>
 
                 {/* Stats Layer */}
-                <motion.div 
+                <MotionDiv 
                     className="absolute top-0 left-0 md:top-[10%] md:left-[10%] bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl hidden lg:block"
                     initial={{ x: -50, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
@@ -191,9 +194,9 @@ const Products: React.FC = () => {
                 >
                     <div className="text-2xl font-bold text-white">500,000+</div>
                     <div className="text-xs text-gray-400 uppercase tracking-widest">Active Users</div>
-                </motion.div>
+                </MotionDiv>
                 
-                <motion.div 
+                <MotionDiv 
                     className="absolute bottom-0 right-0 md:bottom-[20%] md:right-[10%] bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl hidden lg:block"
                     initial={{ x: 50, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
@@ -202,7 +205,7 @@ const Products: React.FC = () => {
                     <div className="flex text-yellow-400 mb-1"><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /></div>
                     <div className="text-2xl font-bold text-white">4.9/5</div>
                     <div className="text-xs text-gray-400 uppercase tracking-widest">Average Rating</div>
-                </motion.div>
+                </MotionDiv>
 
             </div>
 
@@ -244,7 +247,7 @@ const Products: React.FC = () => {
                 <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-12 text-center overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/10 to-transparent"></div>
                     <AnimatePresence mode="wait">
-                        <motion.div
+                        <MotionDiv
                             key={activeTestimonial}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -266,7 +269,7 @@ const Products: React.FC = () => {
                                     <div className="text-white font-bold text-sm">{testimonials[activeTestimonial].author}</div>
                                 </div>
                             </div>
-                        </motion.div>
+                        </MotionDiv>
                     </AnimatePresence>
                     
                     {/* Dots */}

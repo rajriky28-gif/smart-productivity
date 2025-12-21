@@ -2,6 +2,10 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Check, Zap, Shield, Globe, Cpu, Layers, Lock, Clock, Sparkles, LayoutDashboard, Smartphone, Cloud, CircleHelp, Users } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+const MotionH1 = motion.h1 as any;
+const MotionP = motion.p as any;
+
 const ProductsPage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -28,38 +32,38 @@ const ProductsPage: React.FC = () => {
            </div>
         </div>
 
-        <motion.div 
+        <MotionDiv 
           style={{ y, opacity }}
           className="relative z-10 text-center px-6"
         >
-          <motion.h1 
+          <MotionH1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-6xl md:text-8xl font-black tracking-tighter text-black mb-4"
           >
             Our Products
-          </motion.h1>
-          <motion.p 
+          </MotionH1>
+          <MotionP 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-2xl md:text-3xl font-light font-serif italic text-gray-500"
           >
             Crafted tools for the modern workflow
-          </motion.p>
-        </motion.div>
+          </MotionP>
+        </MotionDiv>
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-            <motion.div 
+            <MotionDiv 
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="text-gray-400 text-sm font-medium tracking-widest uppercase flex flex-col items-center gap-2"
             >
             Scroll to explore
             <div className="w-px h-12 bg-gradient-to-b from-gray-400 to-transparent"></div>
-            </motion.div>
+            </MotionDiv>
         </div>
       </section>
 
@@ -68,7 +72,7 @@ const ProductsPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
           
           {/* 3. Stride - Featured Product Card */}
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -89,7 +93,7 @@ const ProductsPage: React.FC = () => {
                 {/* Hero Visual */}
                 <div className="relative w-full flex-1 min-h-[300px] perspective-[1000px] group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                   {/* Floating Elements */}
-                  <motion.div 
+                  <MotionDiv 
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     className="absolute top-0 right-10 bg-white p-4 rounded-xl shadow-lg border border-gray-100 z-20 hidden md:block"
@@ -98,7 +102,7 @@ const ProductsPage: React.FC = () => {
                       <div className="bg-green-100 p-2 rounded-full"><Check size={16} className="text-green-600" /></div>
                       <span className="text-sm font-medium">Project Launched</span>
                     </div>
-                  </motion.div>
+                  </MotionDiv>
 
                   {/* Main Mockup */}
                   <div className="w-full h-full bg-gray-50 rounded-t-2xl border border-gray-200 shadow-xl overflow-hidden transform rotate-x-[10deg] group-hover:rotate-x-[0deg] transition-all duration-700 origin-bottom">
@@ -145,12 +149,12 @@ const ProductsPage: React.FC = () => {
                  </div>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* 4. Coming Soon Cards */}
           
           {/* Card 1 - Project Phoenix */}
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -175,10 +179,10 @@ const ProductsPage: React.FC = () => {
 
              {/* Mysterious Glow */}
              <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Card 3 - Mystery */}
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -191,10 +195,10 @@ const ProductsPage: React.FC = () => {
                 <h3 className="text-xl font-bold text-gray-400">What's Next?</h3>
                 <p className="text-xs text-gray-400 mt-2">We are just getting started.</p>
              </div>
-          </motion.div>
+          </MotionDiv>
           
            {/* Card 2 - Project Atlas (Wide) */}
-           <motion.div 
+           <MotionDiv 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -222,7 +226,7 @@ const ProductsPage: React.FC = () => {
                        </div>
                   </div>
               </div>
-          </motion.div>
+          </MotionDiv>
 
         </div>
       </section>
@@ -230,14 +234,14 @@ const ProductsPage: React.FC = () => {
       {/* 5. Innovation Lab - Interactive Experience */}
       <section className="bg-black text-white py-32 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             className="text-center mb-24"
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6">Innovation in Every Detail</h2>
             <p className="text-gray-400 text-xl max-w-2xl mx-auto">We don't just build software. We craft experiences that feel like magic.</p>
-          </motion.div>
+          </MotionDiv>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
              {[
@@ -245,7 +249,7 @@ const ProductsPage: React.FC = () => {
                { title: "Performance", icon: <Zap className="text-yellow-400" />, desc: "Engineered for speed with <100ms response times.", delay: 0.2 },
                { title: "Integration", icon: <Cpu className="text-blue-400" />, desc: "Seamlessly connects with your favorite tools.", delay: 0.4 }
              ].map((item, i) => (
-               <motion.div 
+               <MotionDiv 
                  key={i}
                  initial={{ opacity: 0, y: 30 }}
                  whileInView={{ opacity: 1, y: 0 }}
@@ -257,7 +261,7 @@ const ProductsPage: React.FC = () => {
                  </div>
                  <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
                  <p className="text-gray-400 leading-relaxed">{item.desc}</p>
-               </motion.div>
+               </MotionDiv>
              ))}
           </div>
         </div>

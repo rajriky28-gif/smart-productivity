@@ -6,6 +6,13 @@ import {
   Play, LayoutDashboard
 } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+const MotionSection = motion.section as any;
+const MotionLine = motion.line as any;
+const MotionH1 = motion.h1 as any;
+const MotionP = motion.p as any;
+const MotionButton = motion.button as any;
+
 // --- UTILS & SHARED COMPONENTS ---
 
 const PhoneFrame = ({ children, theme = 'light', className = '' }: { children?: React.ReactNode, theme?: 'light' | 'dark', className?: string }) => (
@@ -62,14 +69,14 @@ const OpeningSequence = ({ onComplete }: { onComplete: () => void }) => {
   }, [onComplete]);
 
   return (
-    <motion.div 
+    <MotionDiv 
         className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden"
         exit={{ opacity: 0 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
     >
       
       {step >= 1 && (
-        <motion.div 
+        <MotionDiv 
           initial={{ scale: 0, opacity: 0 }}
           animate={{ 
               scale: step === 2 ? 600 : 1, // Increased scale to ensure full coverage on large screens
@@ -84,8 +91,8 @@ const OpeningSequence = ({ onComplete }: { onComplete: () => void }) => {
       )}
       
       <AnimatePresence>
-        {step === 1 && (
-            <motion.div
+        {step === 1 ? (
+            <MotionDiv
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, scale: 1.5, filter: 'blur(10px)' }}
@@ -93,10 +100,10 @@ const OpeningSequence = ({ onComplete }: { onComplete: () => void }) => {
                 className="absolute mt-12 text-gray-500 font-mono text-xs tracking-[0.5em] z-10"
             >
                 WAKING UP
-            </motion.div>
-        )}
+            </MotionDiv>
+        ) : null}
       </AnimatePresence>
-    </motion.div>
+    </MotionDiv>
   );
 };
 
@@ -111,7 +118,7 @@ const Hero = () => {
       {/* Background Particles */}
       <div className="absolute inset-0 z-0">
          {[...Array(30)].map((_, i) => (
-            <motion.div
+            <MotionDiv
                key={i}
                animate={{ 
                  y: [0, -100], 
@@ -128,26 +135,26 @@ const Hero = () => {
          ))}
       </div>
 
-      <motion.div style={{ y, opacity }} className="relative z-10 text-center mb-10 px-6">
-         <motion.h1 
+      <MotionDiv style={{ y, opacity }} className="relative z-10 text-center mb-10 px-6">
+         <MotionH1 
            initial={{ opacity: 0, scale: 0.9 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ duration: 1, delay: 0.5 }}
            className="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 tracking-tighter"
          >
            Stride
-         </motion.h1>
-         <motion.p 
+         </MotionH1>
+         <MotionP 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
             className="text-xl md:text-2xl font-serif italic text-orange-200/60 mt-4"
          >
             Your day, beautifully organized.
-         </motion.p>
-      </motion.div>
+         </MotionP>
+      </MotionDiv>
 
-      <motion.div
+      <MotionDiv
          initial={{ y: 100, opacity: 0 }}
          animate={{ y: 0, opacity: 1 }}
          transition={{ duration: 1, delay: 1 }}
@@ -160,9 +167,9 @@ const Hero = () => {
               className="w-full h-full object-cover object-top"
             />
          </PhoneFrame>
-      </motion.div>
+      </MotionDiv>
       
-      <motion.div 
+      <MotionDiv 
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
          transition={{ delay: 1.5 }}
@@ -170,7 +177,7 @@ const Hero = () => {
       >
          <span className="text-xs uppercase tracking-widest">Scroll to unlock</span>
          <ChevronRight className="rotate-90" />
-      </motion.div>
+      </MotionDiv>
     </section>
   );
 };
@@ -251,14 +258,14 @@ const DayJourney = () => {
     ];
 
     return (
-        <motion.section style={{ backgroundColor }} ref={containerRef} className="relative h-[500vh]">
+        <MotionSection style={{ backgroundColor }} ref={containerRef} className="relative h-[500vh]">
             <div className="sticky top-0 h-[100dvh] flex flex-col overflow-hidden">
                 <div className="w-full h-full max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
                     
                     {/* Right: Text Narrative (Shown first on mobile) */}
                     <div className="w-full md:w-1/2 order-1 md:order-2 z-20 pt-24 md:pt-0 pb-6 md:pb-0 md:pl-12 text-center md:text-left h-auto flex flex-col justify-end md:justify-center">
                          <AnimatePresence mode="wait">
-                             <motion.div
+                             <MotionDiv
                                 key={screenStep}
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -281,7 +288,7 @@ const DayJourney = () => {
                                         "Your tasks are safe. Your mind is clear. Sleep well."
                                     ][screenStep]}
                                 </p>
-                             </motion.div>
+                             </MotionDiv>
                          </AnimatePresence>
                     </div>
 
@@ -291,7 +298,7 @@ const DayJourney = () => {
                         <div className="transform scale-[0.60] sm:scale-75 md:scale-100 origin-top md:origin-center transition-transform duration-300">
                             <PhoneFrame theme={screenStep === 4 ? 'dark' : 'light'} className="shadow-2xl transition-all duration-500">
                                 <AnimatePresence mode="wait">
-                                    <motion.div
+                                    <MotionDiv
                                         key={screenStep}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
@@ -300,7 +307,7 @@ const DayJourney = () => {
                                         className="h-full w-full"
                                     >
                                         {phoneContent[screenStep]}
-                                    </motion.div>
+                                    </MotionDiv>
                                 </AnimatePresence>
                             </PhoneFrame>
                         </div>
@@ -308,7 +315,7 @@ const DayJourney = () => {
 
                 </div>
             </div>
-        </motion.section>
+        </MotionSection>
     );
 };
 
@@ -343,7 +350,7 @@ const Constellation = () => {
                         {features.map((f, i) => {
                             const isHovered = hoveredIndex === i;
                             return (
-                                <motion.line 
+                                <MotionLine 
                                     key={i}
                                     x1="50%" 
                                     y1="50%" 
@@ -369,24 +376,24 @@ const Constellation = () => {
                             onMouseEnter={() => setHoveredIndex(i)}
                             onMouseLeave={() => setHoveredIndex(null)}
                         >
-                            <motion.div
+                            <MotionDiv
                                 initial={{ scale: 0, opacity: 0 }}
                                 whileInView={{ scale: 1, opacity: 1 }}
                                 transition={{ type: "spring", delay: i * 0.1 }}
                                 className="relative flex flex-col items-center justify-center cursor-pointer group"
                             >
                                 {/* Icon Circle */}
-                                <motion.div 
+                                <MotionDiv 
                                     whileHover={{ scale: 1.2, backgroundColor: "#fff", color: "#000" }}
                                     className="w-20 h-20 bg-gray-900 border border-gray-700 rounded-full flex items-center justify-center z-10 shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-colors duration-300"
                                 >
                                     <div className="text-gray-400 group-hover:text-black transition-colors duration-300">
                                         {f.icon}
                                     </div>
-                                </motion.div>
+                                </MotionDiv>
                                 
                                 {/* Label */}
-                                <motion.div 
+                                <MotionDiv 
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     className="absolute top-24 w-40 text-center"
@@ -394,14 +401,14 @@ const Constellation = () => {
                                     <span className={`text-sm font-bold tracking-widest uppercase transition-colors duration-300 ${hoveredIndex === i ? 'text-blue-400' : 'text-gray-500'}`}>
                                         {f.label}
                                     </span>
-                                </motion.div>
-                            </motion.div>
+                                </MotionDiv>
+                            </MotionDiv>
                         </div>
                     ))}
 
                     {/* Central Core */}
                     <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                        <motion.div 
+                        <MotionDiv 
                             animate={{ 
                                 boxShadow: ["0 0 20px rgba(59,130,246,0.2)", "0 0 60px rgba(59,130,246,0.6)", "0 0 20px rgba(59,130,246,0.2)"] 
                             }}
@@ -414,7 +421,7 @@ const Constellation = () => {
                             <div className="absolute inset-0 animate-[spin_10s_linear_infinite]">
                                 <div className="absolute top-0 left-1/2 w-2 h-2 bg-blue-500 rounded-full -translate-x-1/2 -translate-y-1/2 blur-[1px]"></div>
                             </div>
-                        </motion.div>
+                        </MotionDiv>
                         
                         {/* Pulse Rings */}
                         <div className="absolute inset-0 rounded-full border border-blue-500/30 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
@@ -477,11 +484,11 @@ const SpeedTest = () => {
                             <span className="text-yellow-400 font-mono">{winner === 'stride' ? 'DONE (0.4s)' : `${Math.round(strideProgress)}%`}</span>
                         </div>
                         <div className="h-4 bg-gray-800 rounded-full overflow-hidden relative">
-                            <motion.div 
+                            <MotionDiv 
                                 className="h-full bg-gradient-to-r from-yellow-400 to-orange-500" 
                                 style={{ width: `${strideProgress}%` }}
                             />
-                            {winner === 'stride' && <motion.div layoutId="flag" className="absolute right-0 top-0 bottom-0 w-1 bg-white" />}
+                            {winner === 'stride' && <MotionDiv layoutId="flag" className="absolute right-0 top-0 bottom-0 w-1 bg-white" />}
                         </div>
                     </div>
 
@@ -492,7 +499,7 @@ const SpeedTest = () => {
                             <span className="font-mono">{Math.round(otherProgress)}%</span>
                         </div>
                         <div className="h-4 bg-gray-800 rounded-full overflow-hidden opacity-50">
-                            <motion.div 
+                            <MotionDiv 
                                 className="h-full bg-gray-600" 
                                 style={{ width: `${otherProgress}%` }}
                             />
@@ -507,13 +514,13 @@ const SpeedTest = () => {
                     </button>
                     
                     {winner && (
-                        <motion.div 
+                        <MotionDiv 
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="mt-8 p-4 bg-green-900/30 border border-green-500/30 rounded-xl text-green-400"
                         >
                             Stride is <span className="font-bold">3x faster</span> than the competition.
-                        </motion.div>
+                        </MotionDiv>
                     )}
                 </div>
             </div>
@@ -531,7 +538,7 @@ const DownloadCTA = () => {
              </div>
 
              <div className="relative z-10 text-center max-w-4xl">
-                 <motion.div
+                 <MotionDiv
                     initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.8 }}
@@ -540,20 +547,20 @@ const DownloadCTA = () => {
                      <div className="w-32 h-32 bg-black text-white rounded-[2.5rem] flex items-center justify-center text-5xl font-bold shadow-2xl mx-auto mb-8">
                          S
                      </div>
-                 </motion.div>
+                 </MotionDiv>
 
                  <h2 className="text-6xl md:text-8xl font-black text-gray-900 mb-8 tracking-tighter">
                     Your Best Days<br/>Start Here.
                  </h2>
 
-                 <motion.button 
+                 <MotionButton 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="bg-black text-white px-12 py-6 rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.4)] transition-all flex items-center gap-4 mx-auto"
                  >
                     <Play fill="currentColor" size={24} />
                     Download on Google Play
-                 </motion.button>
+                 </MotionButton>
                  
                  <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-500">
                     <span className="flex items-center gap-2"><Check size={16} className="text-green-500"/> Free Forever</span>
@@ -591,7 +598,7 @@ const StridePage = () => {
     return (
         <div className="font-sans bg-white min-h-screen">
             <AnimatePresence>
-                {loading && <OpeningSequence onComplete={() => setLoading(false)} />}
+                {loading ? <OpeningSequence onComplete={() => setLoading(false)} /> : null}
             </AnimatePresence>
 
             {!loading && (

@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Monitor, Smartphone, Laptop, Tablet, Watch, Slack, Github, Trello, Figma } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+
 const Platforms: React.FC = () => {
   return (
     <div className="bg-black text-white py-32 overflow-hidden">
@@ -67,7 +69,7 @@ const Platforms: React.FC = () => {
                 { icon: <Monitor size={32} />, label: "Desktop" },
                 { icon: <Watch size={32} />, label: "Watch" },
             ].map((device, i) => (
-                <motion.div 
+                <MotionDiv 
                     key={i}
                     whileHover={{ scale: 1.1, y: -10 }}
                     className="flex flex-col items-center gap-4 text-gray-500 hover:text-white transition-colors cursor-pointer group"
@@ -76,7 +78,7 @@ const Platforms: React.FC = () => {
                         {device.icon}
                     </div>
                     <span className="font-medium">{device.label}</span>
-                </motion.div>
+                </MotionDiv>
             ))}
          </div>
          

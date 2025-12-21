@@ -137,7 +137,7 @@ const FeatureCard = ({ title, icon: Icon, children, isNew = false }: any) => {
             </div>
             
             <AnimatePresence>
-                {isOpen && (
+                {isOpen ? (
                     <motion.div 
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
@@ -146,7 +146,7 @@ const FeatureCard = ({ title, icon: Icon, children, isNew = false }: any) => {
                     >
                         {children}
                     </motion.div>
-                )}
+                ) : null}
             </AnimatePresence>
         </motion.div>
     )

@@ -7,6 +7,9 @@ import {
   Smartphone, Monitor, Cloud, Lock
 } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+const MotionSection = motion.section as any;
+
 // --- SHARED UTILS ---
 
 const LivePulse = () => (
@@ -25,7 +28,7 @@ const NumberTicker = ({ value }: { value: number }) => {
 const Header = () => {
   return (
     <section className="h-[60vh] flex flex-col items-center justify-center bg-white relative">
-      <motion.div 
+      <MotionDiv 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -35,7 +38,7 @@ const Header = () => {
         <p className="text-lg md:text-xl text-gray-500 font-light max-w-2xl mx-auto">
           Where we're going. And how we're getting there.
         </p>
-      </motion.div>
+      </MotionDiv>
       
       <div className="absolute top-24 right-6 md:right-12 text-right hidden md:block">
         <div className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-1">Status</div>
@@ -58,7 +61,7 @@ interface DashboardCardProps {
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({ title, accent, children, delay }) => (
-  <motion.div 
+  <MotionDiv 
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay, duration: 0.6 }}
@@ -70,7 +73,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ title, accent, children, 
         <div className={`w-2 h-2 rounded-full bg-${accent}-500`}></div>
     </h3>
     {children}
-  </motion.div>
+  </MotionDiv>
 );
 
 const Dashboard = () => {
@@ -94,7 +97,7 @@ const Dashboard = () => {
                     <span>Dec 16-29</span>
                 </div>
                 <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
-                    <motion.div 
+                    <MotionDiv 
                         initial={{ width: 0 }}
                         animate={{ width: "67%" }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
@@ -211,7 +214,7 @@ const FeaturePillar = ({ height, color, title, status, progress }: any) => {
                  </div>
                  <div className="font-bold text-base mb-2">{title}</div>
                  <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden border border-gray-700">
-                     <motion.div 
+                     <MotionDiv 
                         initial={{ width: 0 }}
                         whileInView={{ width: `${progress}%` }}
                         className={`h-full ${theme.fill}`}
@@ -231,7 +234,7 @@ const FeaturePillar = ({ height, color, title, status, progress }: any) => {
                      <div className={`absolute inset-0 ${theme.bgLight} opacity-30`}></div>
                      
                      {/* The Fill */}
-                     <motion.div 
+                     <MotionDiv 
                         initial={{ height: 0 }}
                         whileInView={{ height: `${progress}%` }}
                         transition={{ duration: 1.2, type: "spring", bounce: 0, delay: 0.2 }}
@@ -241,7 +244,7 @@ const FeaturePillar = ({ height, color, title, status, progress }: any) => {
                         <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/60"></div>
                         {/* Gradient overlay on fill */}
                         <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"></div>
-                     </motion.div>
+                     </MotionDiv>
                  </div>
                  
                  {/* Shadow Base */}
@@ -259,7 +262,7 @@ const FeaturePillar = ({ height, color, title, status, progress }: any) => {
 
 const RoadmapBlock = ({ height, icon: Icon, title, date, status, color = "blue", delay = 0 }: any) => {
     return (
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay }}
@@ -292,7 +295,7 @@ const RoadmapBlock = ({ height, icon: Icon, title, date, status, color = "blue",
 
              {/* Bottom Highlight */}
              <div className={`absolute bottom-0 left-0 right-0 h-1 bg-${color}-500 opacity-50`}></div>
-        </motion.div>
+        </MotionDiv>
     )
 }
 
@@ -301,14 +304,14 @@ const TimelineStage = ({ title, subtitle, color, children, isFuture = false }: a
         <div className="min-h-[80vh] flex flex-col items-center justify-center relative py-20">
             {/* Text Header */}
             <div className={`text-center mb-16 relative z-10 px-4 ${isFuture ? 'text-white' : 'text-gray-900'}`}>
-                <motion.div 
+                <MotionDiv 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
                     <h2 className="text-4xl md:text-5xl font-black mb-2 tracking-tight">{title}</h2>
                     <p className={`text-lg md:text-xl ${isFuture ? 'text-gray-400' : 'text-gray-500'}`}>{subtitle}</p>
-                </motion.div>
+                </MotionDiv>
             </div>
             
             {/* Platform Base */}
@@ -336,7 +339,7 @@ const SpatialTimeline = () => {
   );
 
   return (
-    <motion.section 
+    <MotionSection 
         ref={containerRef} 
         style={{ backgroundColor: background }}
         className="relative overflow-hidden"
@@ -432,7 +435,7 @@ const SpatialTimeline = () => {
             </div>
         </div>
 
-    </motion.section>
+    </MotionSection>
   );
 };
 
@@ -597,7 +600,7 @@ const LiveActivityPanel = () => {
     ]);
 
     return (
-        <motion.div 
+        <MotionDiv 
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 2 }}
@@ -623,44 +626,26 @@ const LiveActivityPanel = () => {
                     ))}
                 </div>
             </div>
-        </motion.div>
+        </MotionDiv>
     );
 };
 
-// --- MAIN PAGE ---
-
 const RoadmapPage = () => {
-  // Scroll to top on mount
-  useEffect(() => {
-    window.scrollTo(0,0);
-  }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-  return (
-    <div className="bg-white min-h-screen">
-      <Header />
-      <Dashboard />
-      <SpatialTimeline />
-      <VotingSection />
-      <Graveyard />
-      <MetricsAndTeam />
-      
-      {/* Subscribe & CTA */}
-      <section className="py-24 bg-gradient-to-br from-blue-900 to-black text-center text-white px-6">
-          <div className="max-w-2xl mx-auto">
-              <Mail className="mx-auto mb-4 text-blue-400" size={32} />
-              <h2 className="text-4xl font-bold mb-4">Get Roadmap Updates</h2>
-              <p className="text-gray-300 mb-8">Monthly email with what's shipping, what's next, and what we learned.</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                  <input type="email" placeholder="Enter your email" className="px-6 py-3 rounded-full bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 text-white placeholder:text-gray-400 w-full sm:w-auto" />
-                  <button className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-100 transition-colors">Subscribe</button>
-              </div>
-              <div className="text-xs text-gray-500">Join 12,847 subscribers</div>
-          </div>
-      </section>
-
-      <LiveActivityPanel />
-    </div>
-  );
+    return (
+        <div className="bg-white min-h-screen">
+            <Header />
+            <Dashboard />
+            <SpatialTimeline />
+            <VotingSection />
+            <Graveyard />
+            <MetricsAndTeam />
+            <LiveActivityPanel />
+        </div>
+    );
 };
 
 export default RoadmapPage;

@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Play, MousePointer2 } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+const MotionH1 = motion.h1 as any;
+const MotionSpan = motion.span as any;
+const MotionP = motion.p as any;
+
 interface HeroProps {
   onNavigate?: (view: string) => void;
 }
@@ -47,41 +52,41 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     <div ref={containerRef} className="relative bg-black">
       {/* 1. THE AWAKENING (Pre-loader) */}
       <AnimatePresence>
-        {loading && (
-          <motion.div 
+        {loading ? (
+          <MotionDiv 
             className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden"
             exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
           >
-            <motion.div className="relative z-10 text-center">
-               <motion.div
+            <MotionDiv className="relative z-10 text-center">
+               <MotionDiv
                  initial={{ width: "0%" }}
                  animate={{ width: "100%" }}
                  transition={{ duration: 3, ease: "linear" }}
                  className="h-1 bg-white mb-8 mx-auto max-w-[200px]"
                />
-               <motion.h1 className="text-4xl md:text-6xl font-bold tracking-[0.2em] text-white uppercase">
+               <MotionH1 className="text-4xl md:text-6xl font-bold tracking-[0.2em] text-white uppercase">
                  {Array.from("Smart Productivity").map((char, i) => (
-                   <motion.span
+                   <MotionSpan
                      key={i}
                      initial={{ opacity: 0, filter: "blur(10px)" }}
                      animate={{ opacity: 1, filter: "blur(0px)" }}
                      transition={{ delay: i * 0.1, duration: 0.5 }}
                    >
                      {char}
-                   </motion.span>
+                   </MotionSpan>
                  ))}
-               </motion.h1>
-            </motion.div>
+               </MotionH1>
+            </MotionDiv>
             {/* Particle Explosion on Exit */}
-            <motion.div 
+            <MotionDiv 
                initial={{ opacity: 0 }}
                exit={{ opacity: 1, scale: 20 }}
                transition={{ duration: 0.8 }}
                className="absolute inset-0 bg-white mix-blend-overlay"
             />
-          </motion.div>
-        )}
+          </MotionDiv>
+        ) : null}
       </AnimatePresence>
 
       {/* 2. THE IMPOSSIBLE SPACE (Hero) */}
@@ -90,7 +95,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(50,50,90,0.4),_rgba(0,0,0,1))]" />
           {[...Array(20)].map((_, i) => (
-            <motion.div
+            <MotionDiv
               key={i}
               animate={{
                 x: [Math.random() * 100 - 50, Math.random() * 100 - 50],
@@ -107,11 +112,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           ))}
         </div>
 
-        <motion.div 
+        <MotionDiv 
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
           className="relative z-10 text-center px-6 max-w-5xl mx-auto"
         >
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, z: -100 }}
             animate={{ opacity: 1, z: 0 }}
             transition={{ delay: 3.8, duration: 1.5 }}
@@ -120,18 +125,18 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
              <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600 leading-[0.9]">
                THE FUTURE<br/>IS HERE
              </h1>
-          </motion.div>
+          </MotionDiv>
 
-          <motion.p 
+          <MotionP 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 4.5, duration: 1 }}
              className="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto mb-12"
           >
              Tools that don't just help you work—they help you <span className="text-white font-semibold glow">think</span>.
-          </motion.p>
+          </MotionP>
 
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 5, duration: 1 }}
@@ -151,11 +156,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 </div>
                 <span className="font-medium tracking-wide">Watch Vision</span>
              </button>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
         
         {/* Floating UI Fragments */}
-        <motion.div 
+        <MotionDiv 
             animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             className="absolute top-[20%] left-[10%] w-64 h-40 bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-xl p-4 hidden lg:block opacity-60 hover:opacity-100 transition-opacity"
@@ -165,10 +170,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 <div className="h-2 bg-white/20 rounded w-3/4"></div>
                 <div className="h-2 bg-white/10 rounded w-1/2"></div>
             </div>
-        </motion.div>
+        </MotionDiv>
 
         {/* Scroll Indicator */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 6 }}
@@ -176,7 +181,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         >
             <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500">Reality Shift</span>
             <div className="w-px h-16 bg-gradient-to-b from-gray-500 to-transparent"></div>
-        </motion.div>
+        </MotionDiv>
       </section>
 
       {/* 3. THE PHILOSOPHY (Scroll Sequence) */}
@@ -186,33 +191,33 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"></div>
             
             <div className="relative z-10 w-full max-w-4xl px-6 h-full">
-               <motion.div style={{ opacity: opacity1 }} className="absolute inset-0 flex items-center justify-center text-center">
+               <MotionDiv style={{ opacity: opacity1 }} className="absolute inset-0 flex items-center justify-center text-center">
                   <h2 className="text-4xl md:text-7xl font-bold text-white leading-tight">
                      Productivity tools<br/><span className="text-gray-600 line-through decoration-red-500">are broken.</span>
                   </h2>
-               </motion.div>
+               </MotionDiv>
 
-               <motion.div style={{ opacity: opacity2 }} className="absolute inset-0 flex items-center justify-center text-center">
+               <MotionDiv style={{ opacity: opacity2 }} className="absolute inset-0 flex items-center justify-center text-center">
                   <h2 className="text-4xl md:text-7xl font-bold text-white leading-tight">
                      They make you faster.<br/>
                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">But do they make you better?</span>
                   </h2>
-               </motion.div>
+               </MotionDiv>
 
-               <motion.div style={{ opacity: opacity3 }} className="absolute inset-0 flex items-center justify-center text-center">
+               <MotionDiv style={{ opacity: opacity3 }} className="absolute inset-0 flex items-center justify-center text-center">
                   <h2 className="text-3xl md:text-6xl font-bold text-white leading-tight">
                      We're building tools<br/>that amplify <span className="font-serif italic font-light text-yellow-400">thought</span>,<br/>not just action.
                   </h2>
-               </motion.div>
+               </MotionDiv>
 
-               <motion.div style={{ opacity: opacity4 }} className="absolute inset-0 flex flex-col items-center justify-center text-center">
+               <MotionDiv style={{ opacity: opacity4 }} className="absolute inset-0 flex flex-col items-center justify-center text-center">
                   <div className="w-24 h-24 bg-white text-black rounded-2xl flex items-center justify-center mb-8">
                      <span className="text-4xl font-bold">S</span>
                   </div>
                   <h2 className="text-5xl md:text-8xl font-bold text-white mb-6">
                      This is Smart Productivity.
                   </h2>
-               </motion.div>
+               </MotionDiv>
             </div>
          </div>
       </section>

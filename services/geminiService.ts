@@ -35,7 +35,11 @@ export const generateProductivityTip = async (context?: string): Promise<string>
   }
 };
 
-export const chatWithAssistant = async (history: {role: 'user' | 'model', text: string}[], newMessage: string) => {
+export const chatWithAssistant = async (
+    history: {role: 'user' | 'model', text: string}[], 
+    newMessage: string,
+    systemInstruction?: string
+) => {
     const ai = getAiClient();
     if (!ai) return "Please provide an API Key.";
     
@@ -47,7 +51,7 @@ export const chatWithAssistant = async (history: {role: 'user' | 'model', text: 
                 parts: [{ text: h.text }]
             })),
             config: {
-                systemInstruction: "You are Stride, a smart productivity assistant. You are helpful, concise, and professional. You help users organize thoughts and tasks."
+                systemInstruction: systemInstruction || "You are Stride, a smart productivity assistant. You are helpful, concise, and professional. You help users organize thoughts and tasks."
             }
         });
 

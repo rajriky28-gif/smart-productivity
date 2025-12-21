@@ -476,9 +476,9 @@ const BlogPage = () => {
 
             {/* Article Reader Modal */}
             <AnimatePresence>
-                {activeStory && (
+                {activeStory ? (
                     <ArticleReader story={activeStory} onClose={() => setActiveStory(null)} />
-                )}
+                ) : null}
             </AnimatePresence>
 
         </div>

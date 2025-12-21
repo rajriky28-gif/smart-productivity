@@ -2,8 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { 
   MessageCircle, Bug, Lightbulb, Handshake, LifeBuoy, Hand, 
-  ArrowRight, X, Send, Paperclip, MapPin, Globe, Check 
+  ArrowRight, X, Send, Paperclip, MapPin, Globe, Check, 
 } from 'lucide-react';
+import EmailSupportForm from './EmailSupportForm';
+
+const MotionDiv = motion.div as any;
+const MotionH1 = motion.h1 as any;
+const MotionP = motion.p as any;
 
 // --- Types ---
 type IntentType = 'question' | 'bug' | 'idea' | 'partner' | 'support' | 'hello' | null;
@@ -47,7 +52,7 @@ const SpotlightEntrance = ({ onComplete }: { onComplete: () => void }) => {
   }, []);
 
   return (
-    <motion.div 
+    <MotionDiv 
       className="fixed inset-0 z-50 bg-black cursor-none flex items-center justify-center overflow-hidden"
       onClick={onComplete}
       initial={{ opacity: 1 }}
@@ -55,7 +60,7 @@ const SpotlightEntrance = ({ onComplete }: { onComplete: () => void }) => {
       transition={{ duration: 1 }}
     >
       {/* The Reveal Mask */}
-      <motion.div 
+      <MotionDiv 
         className="absolute inset-0 bg-white pointer-events-none mix-blend-difference"
         style={{
           maskImage: useTransform(
@@ -70,7 +75,7 @@ const SpotlightEntrance = ({ onComplete }: { onComplete: () => void }) => {
       />
 
       <div className="relative z-10 text-center pointer-events-none mix-blend-difference text-white">
-        <motion.h1 
+        <MotionH1 
           key={helloText}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,23 +83,23 @@ const SpotlightEntrance = ({ onComplete }: { onComplete: () => void }) => {
           className="text-9xl font-black tracking-tighter"
         >
           {helloText}.
-        </motion.h1>
-        <motion.p 
+        </MotionH1>
+        <MotionP 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
             className="mt-8 text-xl font-light tracking-widest uppercase"
         >
             Click to connect
-        </motion.p>
+        </MotionP>
       </div>
 
       {/* Custom Cursor Follower */}
-      <motion.div 
+      <MotionDiv 
         className="fixed w-4 h-4 bg-white rounded-full pointer-events-none mix-blend-difference z-50"
         style={{ x: springX, y: springY, translateX: '-50%', translateY: '-50%' }}
       />
-    </motion.div>
+    </MotionDiv>
   );
 };
 
@@ -113,7 +118,7 @@ const IntentCard = ({
   delay: number 
 }) => {
   return (
-    <motion.div
+    <MotionDiv
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.5 }}
@@ -132,13 +137,12 @@ const IntentCard = ({
       <div className="flex items-center text-gray-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
         Let's talk <ArrowRight size={16} className="ml-1" />
       </div>
-    </motion.div>
+    </MotionDiv>
   );
 };
 
 // --- Sub-Component: Simulated Form Modal ---
 const ContactModal = ({ intent, onClose }: { intent: IntentType, onClose: () => void }) => {
-  const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -148,6 +152,28 @@ const ContactModal = ({ intent, onClose }: { intent: IntentType, onClose: () => 
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
+
+  if (intent === 'support') {
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <MotionDiv 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                onClick={onClose}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <MotionDiv 
+                initial={{ scale: 0.95, opacity: 0, y: 20 }} 
+                animate={{ scale: 1, opacity: 1, y: 0 }} 
+                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                className="relative bg-white w-full max-w-2xl h-[90vh] md:h-auto md:max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+            >
+                <EmailSupportForm onClose={onClose} />
+            </MotionDiv>
+        </div>
+      );
+  }
 
   const handleSubmit = () => {
     setIsSubmitting(true);
@@ -161,13 +187,13 @@ const ContactModal = ({ intent, onClose }: { intent: IntentType, onClose: () => 
     if (isSuccess) {
         return (
             <div className="text-center py-20">
-                <motion.div 
+                <MotionDiv 
                     initial={{ scale: 0 }} 
                     animate={{ scale: 1 }} 
                     className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6"
                 >
                     <Check size={48} />
-                </motion.div>
+                </MotionDiv>
                 <h3 className="text-3xl font-bold mb-4">Message Received!</h3>
                 <p className="text-gray-500 mb-8">We've dispatched a carrier pigeon (digital, of course).<br/>Expect a reply shortly.</p>
                 <button onClick={onClose} className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition">
@@ -277,14 +303,14 @@ const ContactModal = ({ intent, onClose }: { intent: IntentType, onClose: () => 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div 
+      <MotionDiv 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
         exit={{ opacity: 0 }}
         onClick={onClose}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
-      <motion.div 
+      <MotionDiv 
         initial={{ scale: 0.9, opacity: 0, y: 50 }} 
         animate={{ scale: 1, opacity: 1, y: 0 }} 
         exit={{ scale: 0.9, opacity: 0, y: 50 }}
@@ -302,7 +328,7 @@ const ContactModal = ({ intent, onClose }: { intent: IntentType, onClose: () => 
 
         {renderContent()}
 
-      </motion.div>
+      </MotionDiv>
     </div>
   );
 };
@@ -321,11 +347,11 @@ const ContactPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-black font-sans relative">
       <AnimatePresence>
-        {showEntrance && <SpotlightEntrance onComplete={() => setShowEntrance(false)} />}
+        {showEntrance ? <SpotlightEntrance onComplete={() => setShowEntrance(false)} /> : null}
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-6 py-32">
-        <motion.div 
+        <MotionDiv 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -335,7 +361,7 @@ const ContactPage: React.FC = () => {
           <p className="text-xl text-gray-500 max-w-2xl mx-auto font-light">
             Choose a path below. We've designed a specific team for every need.
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <IntentCard 
@@ -383,7 +409,7 @@ const ContactPage: React.FC = () => {
         </div>
 
         {/* Global Contact Info (Footer of Page) */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
@@ -408,15 +434,15 @@ const ContactPage: React.FC = () => {
                     <Send size={20} />
                     <span className="font-bold">Email Us</span>
                 </div>
-                <p className="text-gray-500 hover:text-black cursor-pointer transition-colors">hello@smartproductivity.com</p>
+                <p className="text-gray-500 hover:text-black cursor-pointer transition-colors" onClick={() => setSelectedIntent('support')}>hello@smartproductivity.com</p>
             </div>
-        </motion.div>
+        </MotionDiv>
       </div>
 
       <AnimatePresence>
-        {selectedIntent && (
+        {selectedIntent ? (
           <ContactModal intent={selectedIntent} onClose={() => setSelectedIntent(null)} />
-        )}
+        ) : null}
       </AnimatePresence>
     </div>
   );

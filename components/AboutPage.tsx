@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Shield, Diamond, Zap, Eye, Heart, Globe, Clock, Check, Users, Mail, MessageCircle, MapPin } from 'lucide-react';
 
+const MotionDiv = motion.div as any;
+
 // --- 1. Manifesto Section ---
 const Manifesto = () => {
   const lines = [
@@ -90,19 +92,19 @@ const Manifesto = () => {
         ))}
       </div>
       
-      <motion.div 
+      <MotionDiv 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20"
       >
         <span className="text-xs uppercase tracking-widest text-gray-500 font-medium">Scroll to begin</span>
-        <motion.div 
+        <MotionDiv 
             animate={{ height: [40, 60, 40], opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="w-px bg-gradient-to-b from-gray-500 to-transparent"
-        ></motion.div>
-      </motion.div>
+        ></MotionDiv>
+      </MotionDiv>
     </section>
   );
 };
@@ -125,7 +127,7 @@ const OriginStory = () => {
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-[#fdfbf7]">
       <div className="sticky top-0 flex h-[100dvh] items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex">
+        <MotionDiv style={{ x }} className="flex">
           {pages.map((page, i) => (
             <div key={i} className={`h-[100dvh] w-screen flex-shrink-0 flex items-center justify-center p-6 md:p-8 ${page.visual} border-r border-gray-100`}>
               <div className="max-w-2xl w-full flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center justify-center h-full pt-16 md:pt-0">
@@ -144,7 +146,7 @@ const OriginStory = () => {
               </div>
             </div>
           ))}
-        </motion.div>
+        </MotionDiv>
       </div>
     </section>
   );
@@ -217,7 +219,7 @@ const TeamMember = ({ name, role, fact, rotation, offset }: { name: string, role
   }, []);
 
   return (
-    <motion.div 
+    <MotionDiv 
       drag
       dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
       whileHover={{ scale: 1.1, rotate: 0, zIndex: 10 }}
@@ -240,7 +242,7 @@ const TeamMember = ({ name, role, fact, rotation, offset }: { name: string, role
       <h4 className="font-bold text-lg text-black">{name}</h4>
       <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">{role}</p>
       <p className="text-sm font-serif italic text-gray-600 border-t border-gray-100 pt-2">"{fact}"</p>
-    </motion.div>
+    </MotionDiv>
   );
 };
 
@@ -268,7 +270,7 @@ const Team = () => {
 const StatItem = ({ value, label }: { value: string, label: string }) => {
     return (
         <div className="text-center">
-            <motion.div 
+            <MotionDiv 
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -276,7 +278,7 @@ const StatItem = ({ value, label }: { value: string, label: string }) => {
                 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2"
             >
                 {value}
-            </motion.div>
+            </MotionDiv>
             <div className="text-gray-400 font-medium uppercase tracking-widest">{label}</div>
         </div>
     )
@@ -357,7 +359,7 @@ const FinalCTA = ({ onNavigate }: { onNavigate?: (view: string) => void }) => {
         <section className="h-screen bg-black flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/20 to-transparent"></div>
             
-            <motion.div 
+            <MotionDiv 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 className="relative z-10 max-w-3xl"
@@ -373,7 +375,7 @@ const FinalCTA = ({ onNavigate }: { onNavigate?: (view: string) => void }) => {
                         See Open Positions
                     </button>
                 </div>
-            </motion.div>
+            </MotionDiv>
         </section>
     )
 }

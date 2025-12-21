@@ -55,7 +55,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li><a href="#" className="hover:text-black transition">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-black transition">Terms of Service</a></li>
               <li><a href="#" className="hover:text-black transition">Cookie Policy</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }} className="hover:text-black transition">Help & Support</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('support'); }} className="hover:text-black transition">Help & Support</a></li>
             </ul>
           </div>
         </div>

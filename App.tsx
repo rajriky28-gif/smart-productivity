@@ -14,6 +14,7 @@ const GeminiAssistant = lazy(() => import('./components/GeminiAssistant'));
 const ProductsPage = lazy(() => import('./components/ProductsPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
+const SupportPage = lazy(() => import('./components/SupportPage'));
 const StridePage = lazy(() => import('./components/StridePage'));
 const RoadmapPage = lazy(() => import('./components/RoadmapPage'));
 const UpdatesPage = lazy(() => import('./components/UpdatesPage'));
@@ -58,6 +59,8 @@ function App() {
             <AboutPage onNavigate={navigateTo} />
           ) : currentView === 'contact' ? (
               <ContactPage />
+          ) : currentView === 'support' ? (
+              <SupportPage onNavigate={navigateTo} />
           ) : currentView === 'stride' ? (
               <StridePage />
           ) : currentView === 'roadmap' ? (

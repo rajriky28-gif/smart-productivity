@@ -3,6 +3,9 @@ import { MessageSquare, X, Send, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { chatWithAssistant } from '../services/geminiService';
 
+const MotionDiv = motion.div as any;
+const MotionButton = motion.button as any;
+
 const GeminiAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'model', text: string}[]>([
@@ -37,8 +40,8 @@ const GeminiAssistant: React.FC = () => {
   return (
     <>
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
+        {isOpen ? (
+          <MotionDiv
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -98,18 +101,18 @@ const GeminiAssistant: React.FC = () => {
                 <Send size={16} />
               </button>
             </div>
-          </motion.div>
-        )}
+          </MotionDiv>
+        ) : null}
       </AnimatePresence>
 
-      <motion.button
+      <MotionButton
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 bg-black text-white p-4 rounded-full shadow-lg z-50 hover:bg-gray-900 transition flex items-center gap-2"
       >
         {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
-      </motion.button>
+      </MotionButton>
     </>
   );
 };
