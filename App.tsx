@@ -11,6 +11,7 @@ const Platforms = lazy(() => import('./components/Platforms'));
 const CallToAction = lazy(() => import('./components/CallToAction'));
 const GeminiAssistant = lazy(() => import('./components/GeminiAssistant'));
 
+const AuthPage = lazy(() => import('./components/AuthPage'));
 const ProductsPage = lazy(() => import('./components/ProductsPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
@@ -38,6 +39,16 @@ function App() {
   // The Home page is now a dark, immersive experience. 
   // Other pages remain light/standard.
   const isHome = currentView === 'home';
+  const isAuth = currentView === 'auth';
+
+  // If in Auth view, we might not want the standard Navbar/Footer
+  if (isAuth) {
+      return (
+          <Suspense fallback={<PageLoader />}>
+              <AuthPage onNavigate={navigateTo} />
+          </Suspense>
+      );
+  }
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${isHome ? 'bg-black text-white' : 'bg-white text-black'}`}>

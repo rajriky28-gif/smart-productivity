@@ -171,7 +171,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
         {/* Desktop CTA */}
         <div className="hidden md:block pl-2 shrink-0">
-            <button className={`${buttonBg} px-4 py-1.5 rounded-full text-sm font-bold transition hover:scale-105 active:scale-95 duration-200 shadow-sm`}>
+            <button 
+                onClick={() => onNavigate?.('auth')}
+                className={`${buttonBg} px-4 py-1.5 rounded-full text-sm font-bold transition hover:scale-105 active:scale-95 duration-200 shadow-sm`}
+            >
                 Get Started
             </button>
         </div>
@@ -212,7 +215,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                     Contact
                 </a>
                 <div className="p-2 pt-4">
-                    <button className="bg-black text-white w-full py-3 rounded-xl font-medium shadow-lg active:scale-95 transition-transform text-sm">
+                    <button 
+                        onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            onNavigate?.('auth');
+                        }}
+                        className="bg-black text-white w-full py-3 rounded-xl font-medium shadow-lg active:scale-95 transition-transform text-sm"
+                    >
                         Get Started
                     </button>
                 </div>
