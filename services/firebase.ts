@@ -30,16 +30,19 @@ try {
   googleProvider = new GoogleAuthProvider();
   
   // Analytics might fail in some environments (e.g. ad blockers), so we catch it independently
-  try {
-    if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined') {
+    try {
       analytics = getAnalytics(app);
+    } catch (err) {
+      console.warn("Firebase Analytics failed to initialize:", err);
     }
-  } catch (err) {
-    console.warn("Firebase Analytics failed to initialize:", err);
   }
-} catch (error) {
-  // Catching errors to prevent full app crash, allowing error boundary to show
-  console.error("Firebase initialization failed:", error);
+} catch (error: any) {
+  // Catching specific "auth not registered" errors to prevent full app crash
+  console.error("Critical Firebase Initialization Error:", error);
+  if (error.message && error.message.includes("auth has not been registered")) {
+      console.error("VERSION MISMATCH DETECTED: This error usually means 'firebase/app' and 'firebase/auth' are loading different versions. Check index.html importmap.");
+  }
 }
 
 export { auth, googleProvider, analytics };
