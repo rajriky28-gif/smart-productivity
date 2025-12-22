@@ -4,10 +4,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Polyfill process.env for browser compatibility and inject API_KEY
-    'process.env': {
-      API_KEY: process.env.API_KEY || ''
-    }
+    // Robustly define process.env.API_KEY to ensure it is replaced by the string value of the environment variable
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
   },
   build: {
     // Increase chunk size warning limit to 3000kB to suppress warnings for large dependencies

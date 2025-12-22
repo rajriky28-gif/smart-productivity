@@ -193,28 +193,148 @@ type ContentBlock =
 
 const getArticleContent = (id: string, title: string, section: string): ContentBlock[] => {
     switch (id) {
+        // --- ACCOUNT & SETTINGS ---
+        case 'signup-login':
+            return [
+                { type: 'text', content: "Stride is primarily a local-first application, but creating an account allows you to sync your profile personalization (like theme preferences and badges) if you move devices in the future." },
+                { type: 'header', content: "To Sign Up" },
+                { type: 'list', items: [
+                    "Open the Stride app.", 
+                    "Tap the **Profile** icon in the top right corner of the home screen.", 
+                    "Select **Create Account**.", 
+                    "Enter your email address and create a strong password."
+                ]},
+                { type: 'tip', content: "Note: Creating an account does **not** upload your task data to the cloud. Tasks currently remain local to your device for privacy." }
+            ];
+        case 'switching-accounts':
+            return [
+                { type: 'text', content: "Because Stride stores data locally, switching user accounts on the same device does **not** switch the task data visible. All users on the same device share the same local database." },
+                { type: 'header', content: "Important Warning" },
+                { type: 'text', content: "If you log out of Account A and log into Account B, you will still see the tasks created while using Account A. We recommend using Stride as a single-user app per device to avoid confusion." }
+            ];
+        case 'delete-account':
+            return [
+                { type: 'text', content: "We respect your right to leave. Deleting your account is permanent and immediate." },
+                { type: 'header', content: "How to delete your account" },
+                { type: 'list', items: ["Go to **Settings** > **Account**.", "Scroll to the very bottom.", "Tap the red **Delete Account** button.", "Confirm your password."] },
+                { type: 'tip', content: "This action deletes your profile on our servers. However, since your tasks are stored locally, you must also **uninstall the app** to remove your task data from your device." }
+            ];
+        case 'appearance':
+            return [
+                { type: 'text', content: "Stride supports both Light and Dark modes to suit your environment." },
+                { type: 'header', content: "Changing Theme" },
+                { type: 'list', items: ["Go to **Settings** > **Appearance**.", "Choose **Light**, **Dark**, or **System Default**."] },
+                { type: 'text', content: "**System Default** will automatically switch themes based on your Android device settings." }
+            ];
+
+        // --- SYNC & BACKUP ---
+        case 'sync-devices':
+            return [
+                { type: 'text', content: "Stride is currently a **Local-First** application. This means your database lives on your phone's internal storage, not on our servers." },
+                { type: 'header', content: "Can I sync to my tablet?" },
+                { type: 'text', content: "Not automatically. We are developing an end-to-end encrypted cloud sync feature (Project Cloud) targeted for late 2025. Until then, data remains isolated to the device it was created on." }
+            ];
+        case 'backup-data':
+            return [
+                { type: 'text', content: "Since there is no automatic cloud sync, we highly recommend manual backups if you have critical data." },
+                { type: 'header', content: "How to Export" },
+                { type: 'list', items: ["Go to **Settings** > **Data & Storage**.", "Tap **Export Data**.", "This will generate a `.stride` file.", "Save this file to your Google Drive or email it to yourself."] },
+                { type: 'header', content: "How to Import" },
+                { type: 'text', content: "Reinstall Stride, go to **Settings > Data**, tap **Import**, and select your `.stride` file." }
+            ];
+        case 'transfer-data':
+            return [
+                { type: 'text', content: "Moving to a new phone requires a manual export/import process." },
+                { type: 'list', items: ["On Old Phone: **Settings > Export Data**.", "Send the file to your New Phone (via Bluetooth, Drive, etc.).", "On New Phone: Install Stride, go to **Settings > Import Data**, and select the file."] }
+            ];
+
+        // --- MOBILE APP ---
+        case 'platforms':
+            return [
+                { type: 'text', content: "Stride is currently focused on providing the best possible experience for Android." },
+                { type: 'header', content: "Supported Versions" },
+                { type: 'list', items: ["Android 10 and above is recommended.", "Minimum requirement: Android 8.0 (Oreo)."] },
+                { type: 'header', content: "iOS Status" },
+                { type: 'text', content: "We are actively developing the iOS version. You can join the waitlist on our homepage to be notified when the beta is ready." }
+            ];
+        case 'offline-mobile':
+            return [
+                { type: 'text', content: "**Yes!** Stride is designed to be fully functional without an internet connection." },
+                { type: 'list', items: ["Create, edit, and delete tasks.", "Use Focus Mode timers.", "View your history and stats."] },
+                { type: 'text', content: "The only features requiring internet are logging in/out and checking for app updates." }
+            ];
+
+        // --- FEATURES ---
+        case 'focus-mode':
+            return [
+                { type: 'text', content: "Focus Mode is Stride's signature feature designed to eliminate distractions and help you enter a flow state." },
+                { type: 'header', content: "How to use it" },
+                { type: 'list', items: ["Tap on any task to open its details.", "Tap the large **Focus** button.", "The interface will darken, hiding all other tasks.", "A timer will start tracking your session."] },
+                { type: 'tip', content: "Pro Tip: Enable 'Deep Focus' in settings to automatically trigger your phone's Do Not Disturb mode when the timer starts." }
+            ];
+        case 'create-task':
+            return [
+                { type: 'text', content: "Adding tasks in Stride is designed to be lightning fast." },
+                { type: 'header', content: "Methods" },
+                { type: 'list', items: ["**Quick Add:** Tap the (+) button in the bottom center.", "**Widget:** Use the home screen widget to add a task without opening the app.", "**Voice:** Long press the (+) button to use voice entry."] }
+            ];
+        
+        // --- TROUBLESHOOTING ---
+        case 'notifications-issue':
+            return [
+                { type: 'text', content: "If your reminders aren't ringing, your phone's battery optimization is likely putting Stride to sleep." },
+                { type: 'header', content: "How to fix (Android)" },
+                { type: 'list', items: ["Open your phone's **Settings** app.", "Go to **Apps** > **Stride** > **Battery**.", "Select **Unrestricted** or **No Restrictions**."] },
+                { type: 'text', content: "Also, verify that you haven't enabled 'Do Not Disturb' mode on your device." }
+            ];
+        case 'widgets-issue':
+            return [
+                { type: 'text', content: "Widgets can sometimes freeze if the app is updated or if the system kills the background process." },
+                { type: 'header', content: "Steps to resolve" },
+                { type: 'list', items: ["Remove the widget from your home screen.", "Restart your device.", "Add the widget again."] },
+                { type: 'tip', content: "If the issue persists, ensure Stride has 'Background Activity' permissions enabled in your device settings." }
+            ];
+        case 'data-recovery':
+            return [
+                { type: 'text', content: "Because Stride does not sync to the cloud, we cannot recover data remotely if it is lost from your device." },
+                { type: 'header', content: "Check for Local Backups" },
+                { type: 'text', content: "If you have previously used the 'Export Data' feature, search your file manager for `.stride` files. You can import these to restore your state." }
+            ];
+
+        // --- BILLING ---
+        case 'is-free':
+            return [
+                { type: 'text', content: "**Yes.** Stride is completely free to download and use." },
+                { type: 'text', content: "We believe basic productivity tools should be accessible to everyone." }
+            ];
+        case 'future-pricing':
+            return [
+                { type: 'text', content: "We plan to introduce a 'Stride Pro' tier in the future for advanced features like Team Collaboration and Cloud Sync." },
+                { type: 'text', content: "However, all current local features (Tasks, Focus Mode, Stats) will remain free forever." }
+            ];
+
+        // --- API ---
         case 'public-api':
             return [
-                { type: 'text', content: "Currently, Stride does not offer a public API for third-party developers or integrations." },
+                { type: 'text', content: "Currently, Stride does not offer a public API for third-party developers." },
                 { type: 'header', content: "Why?" },
-                { type: 'text', content: "Because the app operates as a standalone, local-first utility, there are no external endpoints available to connect with other services (like Zapier, IFTTT, or custom scripts) at this time." }
+                { type: 'text', content: "Because the app operates as a standalone, local-first utility, there are no external endpoints available to connect with other services (like Zapier or IFTTT) at this time." }
             ];
+
+        // --- FALLBACK ---
         default:
             return [
-                { type: 'text', content: `Learn how to manage ${title.toLowerCase()} in Stride to optimize your workflow.` },
-                { type: 'header', content: `Overview: ${title}` },
-                { type: 'text', content: `Configuring your ${section.toLowerCase()} allows Stride to adapt to your personal preferences. ${title} is a key part of this customization.` },
-                { type: 'header', content: "Step-by-Step Guide" },
+                { type: 'text', content: `Guide for **${title}**.` },
+                { type: 'header', content: "Overview" },
+                { type: 'text', content: `This feature helps you manage your ${section.toLowerCase()}. Customizing it allows Stride to adapt to your personal workflow.` },
+                { type: 'header', content: "Instructions" },
                 { type: 'list', items: [
-                    "Open the **Stride App** on your device.",
-                    "Go to **Settings** by tapping your profile icon.",
-                    `Select **${section.split(' ')[0]}** from the menu.`,
-                    `Locate the option for **${title}**.`,
-                    "Make your changes and tap **Save** if prompted."
+                    "Open the Stride application.",
+                    "Navigate to **Settings**.",
+                    `Locate the **${title}** option.`,
+                    "Configure as needed."
                 ]},
-                { type: 'tip', content: "Changes usually take effect immediately." },
-                { type: 'header', content: "Common Questions" },
-                { type: 'text', content: "Most users find the default settings work best, but customization is available for advanced workflows." }
+                { type: 'tip', content: "If you cannot find this setting, please ensure you have updated to the latest version of Stride." }
             ];
     }
 };
