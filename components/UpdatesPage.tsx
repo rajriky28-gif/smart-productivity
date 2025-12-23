@@ -4,7 +4,7 @@ import {
   GitCommitHorizontal, ArrowRight, Zap, Bug, Sparkles, Box, Smartphone, 
   Battery, Search, Calendar, ChevronDown, ChevronRight, Star, 
   MessageCircle, Download, Shield, RefreshCw, LayoutDashboard, Eye,
-  Award, Heart, Coffee, Globe, Check, Users, ThumbsUp, ChartColumn
+  Award, Heart, Coffee, Globe, Check, Users, ThumbsUp
 } from 'lucide-react';
 
 // --- SHARED UTILITIES ---

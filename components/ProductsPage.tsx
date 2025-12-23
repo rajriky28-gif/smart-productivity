@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Check, Zap, Shield, Globe, Cpu, Layers, Lock, Clock, Sparkles, LayoutDashboard, Smartphone, Cloud, CircleHelp, Users } from 'lucide-react';
+import { ArrowRight, Check, Zap, Shield, Globe, Cpu, Layers, Lock, Clock, Sparkles, LayoutDashboard, Smartphone, Cloud, HelpCircle, Users } from 'lucide-react';
 
 const MotionDiv = motion.div as any;
 const MotionH1 = motion.h1 as any;
@@ -190,7 +190,7 @@ const ProductsPage: React.FC = () => {
           >
              <div className="text-center">
                 <div className="w-16 h-16 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-400">
-                    <CircleHelp size={32} />
+                    <HelpCircle size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-400">What's Next?</h3>
                 <p className="text-xs text-gray-400 mt-2">We are just getting started.</p>

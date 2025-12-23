@@ -6,7 +6,8 @@ import {
   Shield, Smartphone, Settings, Cloud, LifeBuoy, FileText,
   ChevronDown, Clock, Eye, Star,
   CreditCard, Layout, Code,
-  X, Send, Paperclip, Smile, Mic, Minus, Image as ImageIcon
+  X, Send, Paperclip, Smile, Mic, Minus, Image as ImageIcon,
+  HelpCircle
 } from 'lucide-react';
 import { chatWithAssistant } from '../services/geminiService';
 import EmailSupportForm from './EmailSupportForm';
@@ -77,21 +78,22 @@ const ACCOUNT_ARTICLES = [
     {
         section: "Account Management",
         items: [
-            { id: "signup-login", title: "How to Sign Up or Log In", time: "2 min", views: "5,100", rating: "4.9" },
-            { id: "switching-accounts", title: "Important: Switching Accounts & Data", time: "1 min", views: "8,200", rating: "5.0" },
+            { id: "signup-login", title: "How to Sign Up or Log In to Stride", time: "2 min", views: "5,200", rating: "4.9" },
+            { id: "switching-data", title: "Important: Switching Accounts and Your Data", time: "2 min", views: "8,500", rating: "5.0" },
             { id: "edit-profile", title: "How to Edit Your Profile Name", time: "1 min", views: "1,200", rating: "4.5" },
             { id: "change-password", title: "How to Change Your Password", time: "2 min", views: "2,300", rating: "4.7" },
-            { id: "delete-account", title: "How to Delete Your Account", time: "1 min", views: "900", rating: "4.2" },
+            { id: "delete-account", title: "How to Delete Your Account", time: "1 min", views: "950", rating: "4.2" },
+            { id: "stats-trophies", title: "Understanding Your Profile Stats and Trophies", time: "3 min", views: "6,400", rating: "4.8" },
         ]
     },
     {
         section: "App Settings",
         items: [
-            { id: "appearance", title: "Customizing App Appearance (Dark Mode)", time: "2 min", views: "3,400", rating: "4.8" },
             { id: "notifications", title: "Managing Notifications", time: "2 min", views: "4,100", rating: "4.6" },
+            { id: "appearance", title: "Customizing the App Appearance (Dark Mode)", time: "2 min", views: "3,400", rating: "4.8" },
             { id: "sound-haptics", title: "Sound Effects and Haptic Feedback", time: "2 min", views: "1,500", rating: "4.5" },
+            { id: "battery-opt", title: "What is \"Battery Optimization\"?", time: "2 min", views: "2,100", rating: "4.4" },
             { id: "language", title: "Changing the App Language", time: "1 min", views: "800", rating: "4.0" },
-            { id: "battery-opt", title: "What is Battery Optimization?", time: "3 min", views: "2,100", rating: "4.4" },
         ]
     }
 ];
@@ -100,10 +102,10 @@ const SYNC_BACKUP_ARTICLES = [
     {
         section: "Data Management",
         items: [
-            { id: "sync-devices", title: "Does Stride sync my data across devices?", time: "2 min", views: "12,500", rating: "4.8" },
-            { id: "backup-data", title: "How do I backup my data?", time: "3 min", views: "15,200", rating: "4.9" },
-            { id: "auto-sync-toggle", title: "What does the \"Auto Sync\" toggle do?", time: "1 min", views: "8,100", rating: "4.5" },
-            { id: "transfer-data", title: "Can I transfer my data to a new phone?", time: "2 min", views: "10,300", rating: "4.3" },
+            { id: "sync-devices", title: "Does Stride sync my data across devices?", time: "2 min", views: "14,200", rating: "4.8" },
+            { id: "backup-data", title: "How do I backup my data?", time: "2 min", views: "16,500", rating: "4.9" },
+            { id: "auto-sync-toggle", title: "What does the \"Auto Sync\" toggle do?", time: "1 min", views: "9,100", rating: "4.5" },
+            { id: "transfer-data", title: "Can I transfer my data to a new phone?", time: "1 min", views: "11,800", rating: "4.4" },
         ]
     }
 ];
@@ -196,73 +198,206 @@ const getArticleContent = (id: string, title: string, section: string): ContentB
         // --- ACCOUNT & SETTINGS ---
         case 'signup-login':
             return [
-                { type: 'text', content: "Stride is primarily a local-first application, but creating an account allows you to sync your profile personalization (like theme preferences and badges) if you move devices in the future." },
-                { type: 'header', content: "To Sign Up" },
-                { type: 'list', items: [
-                    "Open the Stride app.", 
-                    "Tap the **Profile** icon in the top right corner of the home screen.", 
-                    "Select **Create Account**.", 
-                    "Enter your email address and create a strong password."
-                ]},
-                { type: 'tip', content: "Note: Creating an account does **not** upload your task data to the cloud. Tasks currently remain local to your device for privacy." }
+                { type: 'text', content: "Getting started with Stride is easy. When you first open the app, you have three options to access your to-do lists:" },
+                { type: 'header', content: "Google Sign-In (Recommended)" },
+                { type: 'text', content: "Tap the **Google** button for a quick, secure sign-in using your existing Google account." },
+                { type: 'header', content: "Email & Password" },
+                { type: 'text', content: "If you prefer a traditional login, you can create a unique Stride account using your email address and a strong password." },
+                { type: 'header', content: "Guest Mode" },
+                { type: 'text', content: "Want to try Stride immediately? Select the Guest option and enter your name to start adding tasks right away. **Note:** Guest data is stored locally on your device." },
+                { type: 'tip', content: "To log out at any time, navigate to the Account tab and scroll down to find the Log Out option." }
             ];
-        case 'switching-accounts':
+        case 'switching-data':
             return [
-                { type: 'text', content: "Because Stride stores data locally, switching user accounts on the same device does **not** switch the task data visible. All users on the same device share the same local database." },
-                { type: 'header', content: "Important Warning" },
-                { type: 'text', content: "If you log out of Account A and log into Account B, you will still see the tasks created while using Account A. We recommend using Stride as a single-user app per device to avoid confusion." }
+                { type: 'text', content: "Currently, Stride stores your tasks, lists, and trophies locally on your device, not in the cloud." },
+                { type: 'header', content: "What this means for you" },
+                { type: 'text', content: "If you log out of your current account (or Guest mode) and log into a different account on the same device, your previous tasks will **not** transfer over. The new account will start fresh." },
+                { type: 'tip', content: "Please ensure you have completed important tasks before switching accounts or uninstalling the app, as local data cannot be recovered once lost." }
+            ];
+        case 'edit-profile':
+            return [
+                { type: 'text', content: "You can update how your name appears in the app from the Account section." },
+                { type: 'list', items: [
+                    "Tap the **Account** icon (the person icon) in the bottom navigation bar.",
+                    "Tap the **Edit Profile** button located under your current name.",
+                    "Enter your new desired name.",
+                    "Save your changes."
+                ]},
+                { type: 'text', content: "Currently, only your display name can be edited." }
+            ];
+        case 'notifications':
+            return [
+                { type: 'text', content: "Stride can send you reminders for due tasks so you never miss a deadline. You have full control over these notifications." },
+                { type: 'header', content: "To turn notifications ON or OFF" },
+                { type: 'list', items: [
+                    "Go to the **Account** tab.",
+                    "Tap on **Settings**.",
+                    "Find the **Notifications** toggle switch.",
+                    "Turn toggle **ON** to receive task reminders.",
+                    "Turn toggle **OFF** to disable all app notifications from Stride."
+                ]}
+            ];
+        case 'battery-opt':
+            return [
+                { type: 'text', content: "In your **Account** menu, you will see an option for Battery Optimization." },
+                { type: 'header', content: "Why is this important?" },
+                { type: 'text', content: "Stride is designed to run efficiently in the background to ensure your reminders fire on time. Enabling this in-app feature helps Stride reduce unwanted battery usage on your device while still ensuring the app functions correctly." },
+                { type: 'tip', content: "We recommend leaving this active for the best balance of performance and battery life." }
+            ];
+        case 'language':
+            return [
+                { type: 'text', content: "Stride is currently available in English." },
+                { type: 'text', content: "You can view the current language setting by going to **Account > Settings > Language**." },
+                { type: 'text', content: "We are working on adding support for more languages in future updates!" }
             ];
         case 'delete-account':
             return [
-                { type: 'text', content: "We respect your right to leave. Deleting your account is permanent and immediate." },
-                { type: 'header', content: "How to delete your account" },
-                { type: 'list', items: ["Go to **Settings** > **Account**.", "Scroll to the very bottom.", "Tap the red **Delete Account** button.", "Confirm your password."] },
-                { type: 'tip', content: "This action deletes your profile on our servers. However, since your tasks are stored locally, you must also **uninstall the app** to remove your task data from your device." }
+                { type: 'text', content: "If you wish to permanently remove your account and data from Stride:" },
+                { type: 'list', items: [
+                    "Navigate to the **Account** tab located in the bottom navigation bar.",
+                    "Scroll down to the very bottom of the screen.",
+                    "Tap the red **Delete Account** button.",
+                    "Confirm that you wish to proceed."
+                ]}
+            ];
+        case 'change-password':
+            return [
+                { type: 'text', content: "If you signed up using an email and password, you can update your credentials directly in the app." },
+                { type: 'list', items: [
+                    "Go to the **Account** tab.",
+                    "Tap on the **Change Password** button (located below Edit Profile).",
+                    "You will be prompted to enter your current password for security.",
+                    "Enter your new password and confirm it."
+                ]},
+                { type: 'tip', content: "**Note:** This option is not available for users who sign in via Google or Guest mode, as those accounts do not use a Stride-specific password." }
             ];
         case 'appearance':
             return [
-                { type: 'text', content: "Stride supports both Light and Dark modes to suit your environment." },
-                { type: 'header', content: "Changing Theme" },
-                { type: 'list', items: ["Go to **Settings** > **Appearance**.", "Choose **Light**, **Dark**, or **System Default**."] },
-                { type: 'text', content: "**System Default** will automatically switch themes based on your Android device settings." }
+                { type: 'text', content: "Stride allows you to customize the look of the app to match your preference or your device's system settings." },
+                { type: 'list', items: [
+                    "Navigate to **Account > Settings**.",
+                    "Tap on **Theme** under the Preferences section."
+                ]},
+                { type: 'header', content: "Options" },
+                { type: 'list', items: [
+                    "**Light:** Keeps the app in light mode at all times.",
+                    "**Dark:** Keeps the app in dark mode, which is easier on the eyes in low light.",
+                    "**Auto:** Automatically switches between Light and Dark mode based on your device’s global system settings."
+                ]}
+            ];
+        case 'sound-haptics':
+            return [
+                { type: 'text', content: "You can control how Stride interacts with you while you use the app." },
+                { type: 'header', content: "Haptic Feedback (Vibration)" },
+                { type: 'text', content: "Haptic feedback provides a small vibration when you interact with certain elements, like completing a task. To enable or disable this, go to **Account** and toggle the **Haptic Feedback** switch ON or OFF." },
+                { type: 'header', content: "Sound Effects" },
+                { type: 'text', content: "Stride plays subtle sounds when you complete tasks or navigate the app. To manage this, go to **Account > Settings** and find the **Sound Effects** toggle. Turn it ON to hear app sounds, or OFF for a silent experience." }
+            ];
+        case 'stats-trophies':
+            return [
+                { type: 'text', content: "Stride gamifies your productivity to keep you motivated. On your Account screen, you will see a dashboard of your progress." },
+                { type: 'header', content: "Your Stats" },
+                { type: 'list', items: [
+                    "**Tasks Created:** The total number of tasks you have added since joining.",
+                    "**Days Streak:** The number of consecutive days you have used the app."
+                ]},
+                { type: 'header', content: "Trophies" },
+                { type: 'text', content: "As you use the app, you unlock badges for your achievements. You can view your collection at the bottom of the Account screen:" },
+                { type: 'list', items: [
+                    "**Consistency:** Awarded for maintaining a daily streak.",
+                    "**On Fire:** Awarded for high productivity periods.",
+                    "**Unstoppable:** Awarded for completing a high volume of tasks.",
+                    "**Speed Demon:** Awarded for completing tasks quickly after creating them."
+                ]}
             ];
 
         // --- SYNC & BACKUP ---
         case 'sync-devices':
             return [
-                { type: 'text', content: "Stride is currently a **Local-First** application. This means your database lives on your phone's internal storage, not on our servers." },
-                { type: 'header', content: "Can I sync to my tablet?" },
-                { type: 'text', content: "Not automatically. We are developing an end-to-end encrypted cloud sync feature (Project Cloud) targeted for late 2025. Until then, data remains isolated to the device it was created on." }
+                { type: 'text', content: "Currently, Stride operates as an offline, local-first application." },
+                { type: 'header', content: "What this means" },
+                { type: 'text', content: "This means that your tasks, lists, and progress are stored strictly on the device you are currently using. We do not sync your data to the cloud or across multiple devices at this time." },
+                { type: 'text', content: "For example: If you use Stride on your phone and then log in on a tablet or another phone, you will not see your tasks there. Each device has its own separate list of data." },
+                { type: 'tip', content: "We are actively working on Cloud Sync for a future update, so stay tuned!" }
             ];
         case 'backup-data':
             return [
-                { type: 'text', content: "Since there is no automatic cloud sync, we highly recommend manual backups if you have critical data." },
-                { type: 'header', content: "How to Export" },
-                { type: 'list', items: ["Go to **Settings** > **Data & Storage**.", "Tap **Export Data**.", "This will generate a `.stride` file.", "Save this file to your Google Drive or email it to yourself."] },
-                { type: 'header', content: "How to Import" },
-                { type: 'text', content: "Reinstall Stride, go to **Settings > Data**, tap **Import**, and select your `.stride` file." }
+                { type: 'text', content: "Because Stride values privacy and simplicity, we do not store your data on external servers." },
+                { type: 'header', content: "Important Data Safety Warning" },
+                { type: 'text', content: "Your data exists only on your phone. Stride does not perform automatic cloud backups." },
+                { type: 'list', items: [
+                    "If you **uninstall the app**: All your tasks and history will be permanently deleted.",
+                    "If you **clear the app data**: Your tasks will be erased.",
+                    "If you **lose your phone**: Your data cannot be recovered by our support team."
+                ]},
+                { type: 'tip', content: "We recommend keeping the app installed to ensure your tasks remain safe." }
+            ];
+        case 'auto-sync-toggle':
+            return [
+                { type: 'text', content: "In your Settings menu, you may see a toggle switch labeled **Auto Sync**." },
+                { type: 'header', content: "Is it working?" },
+                { type: 'text', content: "This button is a placeholder for an upcoming feature. Currently, toggling it On or Off does not affect your data or app performance. It is there to prepare for our future Cloud Sync update, which will allow you to save your tasks online." },
+                { type: 'tip', content: "For now, you can leave this setting as it is." }
             ];
         case 'transfer-data':
             return [
-                { type: 'text', content: "Moving to a new phone requires a manual export/import process." },
-                { type: 'list', items: ["On Old Phone: **Settings > Export Data**.", "Send the file to your New Phone (via Bluetooth, Drive, etc.).", "On New Phone: Install Stride, go to **Settings > Import Data**, and select the file."] }
+                { type: 'text', content: "At this time, there is no direct way to export or transfer your Stride database from one phone to another." },
+                { type: 'header', content: "Moving Devices" },
+                { type: 'text', content: "If you get a new device, you will need to start fresh with a new set of tasks. We suggest manually noting down any critical tasks from your old device before switching." }
             ];
 
         // --- MOBILE APP ---
         case 'platforms':
             return [
-                { type: 'text', content: "Stride is currently focused on providing the best possible experience for Android." },
-                { type: 'header', content: "Supported Versions" },
-                { type: 'list', items: ["Android 10 and above is recommended.", "Minimum requirement: Android 8.0 (Oreo)."] },
-                { type: 'header', content: "iOS Status" },
-                { type: 'text', content: "We are actively developing the iOS version. You can join the waitlist on our homepage to be notified when the beta is ready." }
+                { type: 'text', content: "Stride is currently designed exclusively for Android devices." },
+                { type: 'header', content: "Requirements" },
+                { type: 'text', content: "To ensure the best experience, we recommend using a device running Android 10 or higher. While the app may function on older versions, newer Android versions ensure better performance for notifications and background timers." },
+                { type: 'tip', content: "Note: An iOS (iPhone) version is not available at this time." }
             ];
+        case 'install':
+             return [
+                { type: 'text', content: "You can install Stride securely from the official store:" },
+                { type: 'list', items: [
+                    "Open the Google Play Store on your Android device.",
+                    "Search for \"Stride To-Do\".",
+                    "Tap the **Install** button.",
+                    "Once installed, tap Open to launch the app and start organizing your life."
+                ]}
+             ];
+        case 'updating':
+             return [
+                { type: 'text', content: "We frequently release updates to add new languages, fix bugs, and introduce new features (like the upcoming Cloud Sync)." },
+                { type: 'header', content: "How to update" },
+                { type: 'list', items: [
+                    "Open the Google Play Store.",
+                    "Tap your profile icon in the top right.",
+                    "Select **Manage apps & device**.",
+                    "Look for **Updates available**.",
+                    "Find Stride in the list and tap **Update**."
+                ]},
+                { type: 'tip', content: "Tip: You can enable \"Auto-update\" in the Play Store settings to never miss a new version." }
+             ];
         case 'offline-mobile':
             return [
-                { type: 'text', content: "**Yes!** Stride is designed to be fully functional without an internet connection." },
-                { type: 'list', items: ["Create, edit, and delete tasks.", "Use Focus Mode timers.", "View your history and stats."] },
-                { type: 'text', content: "The only features requiring internet are logging in/out and checking for app updates." }
+                { type: 'text', content: "**Yes!** Stride is a \"local-first\" mobile app." },
+                { type: 'text', content: "This means you do not need an active internet connection to:" },
+                { type: 'list', items: [
+                    "Create and edit tasks.",
+                    "Use Focus Mode.",
+                    "Access your templates.",
+                    "View your history."
+                ]},
+                { type: 'text', content: "You can use Stride anywhere—on a flight, in a subway, or in areas with poor reception—without any interruption." }
             ];
+        case 'permissions':
+             return [
+                { type: 'text', content: "When you install Stride, we may ask for certain permissions to ensure the app works correctly. Here is why we need them:" },
+                { type: 'list', items: [
+                    "**Notifications:** Required to send you reminders for your due tasks and Focus Mode alerts.",
+                    "**Alarms & Reminders:** Required to ring accurately at the exact time you set a task.",
+                    "**Battery Optimization (Ignore):** We may ask you to exclude Stride from battery saving modes. This prevents your phone from \"killing\" the app in the background, which would stop your reminders from working."
+                ]}
+             ];
 
         // --- FEATURES ---
         case 'focus-mode':
@@ -893,251 +1028,164 @@ const SupportChatWidget = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (o
                     </motion.div>
                 ) : null}
             </AnimatePresence>
-        </>
+        </motion.div>
     );
 };
 
-const SupportHub: React.FC<{ product: Product, onBack: () => void }> = ({ product, onBack }) => {
+// --- TOPIC CARD ---
+const TopicCard = ({ title, icon, desc, onClick }: { title: string, icon: any, desc: string, onClick: () => void }) => (
+    <button 
+        onClick={onClick}
+        className="text-left p-6 bg-white border border-gray-200 rounded-2xl hover:border-black hover:shadow-lg transition-all group"
+    >
+        <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-900 mb-4 group-hover:bg-black group-hover:text-white transition-colors">
+            {icon}
+        </div>
+        <h3 className="font-bold text-lg text-gray-900 mb-1 flex items-center justify-between">
+            {title}
+            <ChevronRight size={16} className="text-gray-300 group-hover:text-black transform group-hover:translate-x-1 transition-all" />
+        </h3>
+        <p className="text-sm text-gray-500">{desc}</p>
+    </button>
+);
+
+// --- SUPPORT HUB ---
+const SupportHub: React.FC<{ product: Product; onBack: () => void }> = ({ product, onBack }) => {
     const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
-    const [activeVideo, setActiveVideo] = useState<number | null>(null);
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-    const [forumButtonText, setForumButtonText] = useState("Visit Forum");
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [isEmailOpen, setIsEmailOpen] = useState(false);
+    const [isEmailFormOpen, setIsEmailFormOpen] = useState(false);
 
-    useEffect(() => {
-        window.scrollTo(0,0);
-    }, []);
-
-    const handleVideoClick = (index: number) => {
-        setActiveVideo(index);
-        setTimeout(() => setActiveVideo(null), 3000);
-    };
-
-    const handleForumClick = () => {
-        setForumButtonText("Community feature is under development");
-        setTimeout(() => setForumButtonText("Visit Forum"), 2000);
-    };
-
-    // Render logic for different topics
-    if (selectedTopic === "Account & Settings") return <AccountSettingsTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "Sync & Backup") return <SyncBackupTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "Mobile App") return <MobileAppTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "Features") return <FeaturesTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "Troubleshooting") return <TroubleshootingTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "Billing") return <BillingTopic onBack={() => setSelectedTopic(null)} />;
-    if (selectedTopic === "API & Dev") return <ApiDevTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'account') return <AccountSettingsTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'sync') return <SyncBackupTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'mobile') return <MobileAppTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'features') return <FeaturesTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'troubleshooting') return <TroubleshootingTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'billing') return <BillingTopic onBack={() => setSelectedTopic(null)} />;
+    if (selectedTopic === 'api') return <ApiDevTopic onBack={() => setSelectedTopic(null)} />;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="min-h-screen bg-gray-50 pb-32"
-        >
-            <div className="bg-white border-b border-gray-200 pt-32 pb-12 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <button onClick={onBack} className="flex items-center text-gray-500 hover:text-black transition-colors mb-8 text-sm font-medium">
-                        <ArrowLeft size={16} className="mr-2" /> All Products
-                    </button>
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-6">
-                            <motion.div layoutId={`product-${product.id}`} className="transform scale-125 origin-left">
-                                {product.icon}
-                            </motion.div>
-                            <div>
-                                <h1 className="text-4xl font-bold text-gray-900 mb-2">{product.name} Support</h1>
-                                <div className="flex items-center gap-3 text-sm">
-                                    <span className="flex items-center text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></div>
-                                        Systems Operational
-                                    </span>
-                                    <span className="text-gray-400">•</span>
-                                    <span className="text-gray-500">Avg. Response: 2 hours</span>
-                                </div>
-                            </div>
-                        </div>
+        <div className="min-h-screen bg-white">
+             {/* Email Form Modal */}
+            <AnimatePresence>
+                {isEmailFormOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div 
+                            initial={{ opacity: 0 }} 
+                            animate={{ opacity: 1 }} 
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsEmailFormOpen(false)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+                        <motion.div 
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }} 
+                            animate={{ scale: 1, opacity: 1, y: 0 }} 
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            className="relative bg-white w-full max-w-2xl h-[90vh] md:h-auto md:max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+                        >
+                            <EmailSupportForm onClose={() => setIsEmailFormOpen(false)} initialProduct={product.id} />
+                        </motion.div>
                     </div>
+                )}
+            </AnimatePresence>
+
+            {/* Header / Hero */}
+            <div className="bg-black text-white pt-32 pb-20 px-6 relative overflow-hidden">
+                <div className="max-w-4xl mx-auto relative z-10 text-center">
+                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold mb-6 border border-white/20">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        Systems Operational
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">How can we help?</h1>
+                    <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8">
+                        Search our knowledge base or browse help topics below.
+                    </p>
+                    <SearchInterface />
                 </div>
+                
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at center, #333 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 -mt-8">
-                <SearchInterface />
-
+            <div className="max-w-7xl mx-auto px-6 py-20">
                 <HubSection title="Browse by Topic">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[
-                            { icon: <Settings />, label: "Account & Settings", count: 12 },
-                            { icon: <Cloud />, label: "Sync & Backup", count: 8 },
-                            { icon: <Smartphone />, label: "Mobile App", count: 5 },
-                            { icon: <Layout />, label: "Features", count: 6 },
-                            { icon: <LifeBuoy />, label: "Troubleshooting", count: 5 },
-                            { icon: <CreditCard />, label: "Billing", count: 3 },
-                            { icon: <Shield />, label: "Privacy & Security", count: 5 },
-                            { icon: <Code />, label: "API & Dev", count: 2 },
-                        ].map((topic, i) => (
-                            <div 
-                                key={i} 
-                                onClick={() => setSelectedTopic(topic.label)}
-                                className="bg-white p-6 rounded-xl border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all cursor-pointer group"
-                            >
-                                <div className="text-gray-400 group-hover:text-black mb-4 transition-colors">{topic.icon}</div>
-                                <h3 className="font-bold text-gray-900 mb-1">{topic.label}</h3>
-                                <p className="text-xs text-gray-500">{topic.count} articles</p>
-                            </div>
-                        ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <TopicCard 
+                            title="Account & Settings" 
+                            icon={<Settings size={24}/>} 
+                            desc="Manage profile, preferences, and notifications." 
+                            onClick={() => setSelectedTopic('account')}
+                        />
+                        <TopicCard 
+                            title="Sync & Backup" 
+                            icon={<Cloud size={24}/>} 
+                            desc="Data safety, export, and device transfer." 
+                            onClick={() => setSelectedTopic('sync')}
+                        />
+                        <TopicCard 
+                            title="Mobile App" 
+                            icon={<Smartphone size={24}/>} 
+                            desc="Installation, updates, and compatibility." 
+                            onClick={() => setSelectedTopic('mobile')}
+                        />
+                        <TopicCard 
+                            title="Features" 
+                            icon={<Layout size={24}/>} 
+                            desc="Focus Mode, Templates, and Task tools." 
+                            onClick={() => setSelectedTopic('features')}
+                        />
+                        <TopicCard 
+                            title="Troubleshooting" 
+                            icon={<LifeBuoy size={24}/>} 
+                            desc="Fix common issues and bugs." 
+                            onClick={() => setSelectedTopic('troubleshooting')}
+                        />
+                        <TopicCard 
+                            title="Billing & Pricing" 
+                            icon={<CreditCard size={24}/>} 
+                            desc="Free plan details and future pricing." 
+                            onClick={() => setSelectedTopic('billing')}
+                        />
+                        <TopicCard 
+                            title="API & Developers" 
+                            icon={<Code size={24}/>} 
+                            desc="Integration status and contribution." 
+                            onClick={() => setSelectedTopic('api')}
+                        />
                     </div>
                 </HubSection>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <div className="lg:col-span-2">
-                        <HubSection title={showAllFaqs ? "Frequently Asked Questions" : "Popular Questions"}>
-                            <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
-                                {showAllFaqs ? (
-                                    ALL_FAQS.map((category, idx) => (
-                                        <div key={idx} className="border-b border-gray-100 last:border-0">
-                                            <div className="bg-gray-50 px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider sticky top-0 z-10">
-                                                {category.category}
-                                            </div>
-                                            {category.items.map((faq, i) => (
-                                                <details key={i} className="group p-6 cursor-pointer border-t border-gray-100 first:border-0 bg-white">
-                                                    <summary className="flex justify-between items-center font-bold text-gray-900 list-none">
-                                                        {faq.q}
-                                                        <ChevronDown size={20} className="text-gray-400 transform group-open:rotate-180 transition-transform shrink-0 ml-4" />
-                                                    </summary>
-                                                    <p className="text-gray-600 mt-4 leading-relaxed pr-8" dangerouslySetInnerHTML={{ __html: faq.a.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
-                                                </details>
-                                            ))}
-                                        </div>
-                                    ))
-                                ) : (
-                                    POPULAR_FAQS.map((faq, i) => (
-                                        <details key={i} className="group p-6 cursor-pointer">
-                                            <summary className="flex justify-between items-center font-bold text-gray-900 list-none">
-                                                {faq.q}
-                                                <ChevronDown size={20} className="text-gray-400 transform group-open:rotate-180 transition-transform shrink-0 ml-4" />
-                                            </summary>
-                                            <p className="text-gray-600 mt-4 leading-relaxed pr-8" dangerouslySetInnerHTML={{ __html: faq.a.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
-                                        </details>
-                                    ))
-                                )}
-                                <div className="p-4 bg-gray-50 text-center sticky bottom-0 z-20 border-t border-gray-100">
-                                    <button 
-                                        onClick={() => setShowAllFaqs(!showAllFaqs)}
-                                        className="text-sm font-bold text-blue-600 hover:underline"
-                                    >
-                                        {showAllFaqs ? "Show less" : "View all 30 questions"}
-                                    </button>
-                                </div>
+                <HubSection title="Common Questions">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {POPULAR_FAQS.map((faq, i) => (
+                            <div key={i} className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                                <h3 className="font-bold text-gray-900 mb-2 flex items-start gap-2">
+                                    <HelpCircle size={18} className="text-gray-400 mt-1 shrink-0" />
+                                    {faq.q}
+                                </h3>
+                                <p className="text-gray-600 text-sm pl-7">{faq.a}</p>
                             </div>
-                        </HubSection>
+                        ))}
+                     </div>
+                </HubSection>
 
-                        <HubSection title="Video Library">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {VIDEOS.map((video, i) => (
-                                    <div key={i} className="group cursor-pointer" onClick={() => handleVideoClick(i)}>
-                                        <div className="relative aspect-video bg-gray-900 rounded-xl overflow-hidden mb-3">
-                                            <AnimatePresence>
-                                                {activeVideo === i ? (
-                                                    <motion.div 
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        exit={{ opacity: 0 }}
-                                                        className="absolute inset-0 bg-black/80 z-20 flex items-center justify-center rounded-xl"
-                                                    >
-                                                        <div className="flex flex-col items-center gap-2">
-                                                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                                                            <span className="text-white font-bold text-sm">Video will be added soon</span>
-                                                        </div>
-                                                    </motion.div>
-                                                ) : null}
-                                            </AnimatePresence>
-
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                    <Play size={20} className="text-white fill-current" />
-                                                </div>
-                                            </div>
-                                            <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">{video.duration}</div>
-                                        </div>
-                                        <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{video.title}</h4>
-                                        <p className="text-sm text-gray-500">{video.desc}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </HubSection>
-                    </div>
-
-                    <div className="lg:col-span-1 space-y-8">
-                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                            <h3 className="font-bold text-gray-900 mb-6">Contact Support</h3>
-                            <div className="space-y-4">
-                                <button onClick={() => setIsChatOpen(true)} className="w-full flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-blue-500 hover:bg-blue-50 transition-all group text-left">
-                                    <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                        <MessageCircle size={20} />
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-gray-900">Live Chat</div>
-                                        <div className="text-xs text-gray-500">Wait time: ~2 min</div>
-                                    </div>
-                                </button>
-                                
-                                <button onClick={() => setIsEmailOpen(true)} className="w-full flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-blue-500 hover:bg-blue-50 transition-all group text-left">
-                                    <div className="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                        <Mail size={20} />
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-gray-900">Email Support</div>
-                                        <div className="text-xs text-gray-500">Reply time: ~4 hrs</div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Community Widget */}
-                        <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 text-white">
-                            <div className="flex items-center gap-2 mb-4 text-blue-400 text-sm font-bold uppercase tracking-wider">
-                                <Users size={14} /> Community
-                            </div>
-                            <h3 className="font-bold text-xl mb-2">Join the discussion</h3>
-                            <p className="text-gray-400 text-sm mb-6">Connect with 15,000+ users helping each other.</p>
-                            <button 
-                                onClick={handleForumClick}
-                                className={`w-full py-3 font-bold rounded-lg transition-all duration-300 ${
-                                    forumButtonText === "Community feature is under development" 
-                                    ? "bg-yellow-400 text-black scale-105" 
-                                    : "bg-white text-black hover:bg-gray-200"
-                                }`}
-                            >
-                                {forumButtonText}
-                            </button>
+                <div className="mt-20 p-8 md:p-12 bg-gray-900 rounded-3xl text-center text-white relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="text-3xl font-bold mb-4">Still need help?</h2>
+                        <p className="text-gray-400 mb-8">Our support team is just a message away.</p>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                             <button onClick={() => setIsChatOpen(true)} className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                                <MessageCircle size={18} /> Chat with AI
+                             </button>
+                             <button onClick={() => setIsEmailFormOpen(true)} className="bg-transparent border border-gray-700 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                                <Mail size={18} /> Email Support
+                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <SupportChatWidget isOpen={isChatOpen} onToggle={setIsChatOpen} />
-            
-            <AnimatePresence>
-                {isEmailOpen && (
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-                    >
-                        <motion.div 
-                            initial={{ y: 50, scale: 0.95, opacity: 0 }}
-                            animate={{ y: 0, scale: 1, opacity: 1 }}
-                            exit={{ y: 50, scale: 0.95, opacity: 0 }}
-                            className="w-full max-w-2xl h-[90vh] bg-white rounded-3xl overflow-hidden shadow-2xl relative"
-                        >
-                            <EmailSupportForm onClose={() => setIsEmailOpen(false)} />
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.div>
+        </div>
     );
 };
 

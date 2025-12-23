@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence, useInView } from 'framer-motion';
 import { 
   Check, Clock, Hammer, Rocket, MessageSquare, ThumbsUp, 
-  AlertTriangle, X, ChartColumn, Users, Calendar, ArrowRight,
+  AlertTriangle, X, BarChart3, Users, Calendar, ArrowRight,
   Zap, ChevronDown, ChevronUp, Mail, Activity, Eye, Code,
   Smartphone, Monitor, Cloud, Lock
 } from 'lucide-react';
@@ -595,7 +595,7 @@ const MetricsAndTeam = () => {
 const LiveActivityPanel = () => {
     const [activities, setActivities] = useState([
         { msg: "Sarah pushed code to iOS branch", time: "2m ago", icon: <Code size={14} /> },
-        { msg: "Cloud sync reached 75%", time: "15m ago", icon: <ChartColumn size={14} /> },
+        { msg: "Cloud sync reached 75%", time: "15m ago", icon: <BarChart3 size={14} /> },
         { msg: "47 new votes on 'Dark Mode'", time: "23m ago", icon: <ThumbsUp size={14} /> },
     ]);
 

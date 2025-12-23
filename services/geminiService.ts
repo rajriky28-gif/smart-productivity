@@ -2,10 +2,20 @@ import { GoogleGenAI } from "@google/genai";
 
 // Initialize lazily to prevent runtime errors if process.env is not fully ready at module load time
 const getAiClient = () => {
-    // Ensure process.env.API_KEY exists before initializing to prevent crashes
-    const apiKey = process.env.API_KEY;
+    // Safe access to process.env
+    let apiKey = '';
+    try {
+        if (typeof process !== 'undefined' && process.env) {
+            apiKey = process.env.API_KEY || '';
+        } else if (typeof window !== 'undefined' && (window as any).process && (window as any).process.env) {
+            apiKey = (window as any).process.env.API_KEY || '';
+        }
+    } catch (e) {
+        console.warn("Failed to access process.env", e);
+    }
+
     if (!apiKey) {
-        console.warn("API_KEY is missing in process.env");
+        console.warn("API_KEY is missing.");
         return null;
     }
     return new GoogleGenAI({ apiKey });
@@ -41,7 +51,7 @@ export const chatWithAssistant = async (
     systemInstruction?: string
 ) => {
     const ai = getAiClient();
-    if (!ai) return "Please provide an API Key.";
+    if (!ai) return "Please provide an API Key to chat.";
     
     try {
         const chat = ai.chats.create({

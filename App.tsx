@@ -1,27 +1,27 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Footer from './components/Footer';
-import { auth } from './services/firebase';
+import Navbar from './components/Navbar.tsx';
+import Hero from './components/Hero.tsx';
+import Footer from './components/Footer.tsx';
+import { auth } from './services/firebase.ts';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import GeminiAssistant from './components/GeminiAssistant.tsx';
 
 // Lazy load heavy components and pages to improve initial load time
-const Products = lazy(() => import('./components/Products'));
-const Features = lazy(() => import('./components/Features'));
-const Stats = lazy(() => import('./components/Stats'));
-const Platforms = lazy(() => import('./components/Platforms'));
-const CallToAction = lazy(() => import('./components/CallToAction'));
-const GeminiAssistant = lazy(() => import('./components/GeminiAssistant'));
+const Products = lazy(() => import('./components/Products.tsx'));
+const Features = lazy(() => import('./components/Features.tsx'));
+const Stats = lazy(() => import('./components/Stats.tsx'));
+const Platforms = lazy(() => import('./components/Platforms.tsx'));
+const CallToAction = lazy(() => import('./components/CallToAction.tsx'));
 
-const AuthPage = lazy(() => import('./components/AuthPage'));
-const ProductsPage = lazy(() => import('./components/ProductsPage'));
-const AboutPage = lazy(() => import('./components/AboutPage'));
-const ContactPage = lazy(() => import('./components/ContactPage'));
-const SupportPage = lazy(() => import('./components/SupportPage'));
-const StridePage = lazy(() => import('./components/StridePage'));
-const RoadmapPage = lazy(() => import('./components/RoadmapPage'));
-const UpdatesPage = lazy(() => import('./components/UpdatesPage'));
-const BlogPage = lazy(() => import('./components/BlogPage'));
+const AuthPage = lazy(() => import('./components/AuthPage.tsx'));
+const ProductsPage = lazy(() => import('./components/ProductsPage.tsx'));
+const AboutPage = lazy(() => import('./components/AboutPage.tsx'));
+const ContactPage = lazy(() => import('./components/ContactPage.tsx'));
+const SupportPage = lazy(() => import('./components/SupportPage.tsx'));
+const StridePage = lazy(() => import('./components/StridePage.tsx'));
+const RoadmapPage = lazy(() => import('./components/RoadmapPage.tsx'));
+const UpdatesPage = lazy(() => import('./components/UpdatesPage.tsx'));
+const BlogPage = lazy(() => import('./components/BlogPage.tsx'));
 
 // Simple loader for page transitions
 const PageLoader = () => (
@@ -141,9 +141,7 @@ function App() {
         </Suspense>
       </main>
       <Footer onNavigate={navigateTo} />
-      <Suspense fallback={null}>
-        <GeminiAssistant />
-      </Suspense>
+      <GeminiAssistant />
     </div>
   );
 }

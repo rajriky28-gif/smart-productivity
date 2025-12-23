@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Shield, Users, ChartColumn, LayoutDashboard, Smartphone, RefreshCw, Cpu } from 'lucide-react';
+import { Zap, Shield, Users, BarChart3, LayoutDashboard, Smartphone, RefreshCw, Cpu } from 'lucide-react';
 
 const MotionDiv = motion.div as any;
 
@@ -14,7 +14,7 @@ const Features: React.FC = () => {
     { icon: <Shield />, title: "Zero-Knowledge Encryption", desc: "We can't read your data. No one can." },
     { icon: <Cpu />, title: "AI Assistant", desc: "Generative help for writing and planning." },
     { icon: <LayoutDashboard />, title: "Custom Workflows", desc: "Kanban, List, or Calendar - your choice." },
-    { icon: <ChartColumn />, title: "Deep Analytics", desc: "Visualize your productivity velocity." },
+    { icon: <BarChart3 />, title: "Deep Analytics", desc: "Visualize your productivity velocity." },
     { icon: <Smartphone />, title: "Native Mobile", desc: "iOS and Android apps that feel native." },
   ];
 
